@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+</h:head>
+<h:body>
+<p:panel header="Sistema de Pedido Online - VERSÃO DE TESTE">
+	<h:form >
+		<p:menubar >
+			<p:submenu label="Pedido" >
+				<p:menuitem action="pedido.jsf" ajax="false" value="Emitir Pedido"/>
+			</p:submenu>
+			<p:submenu label="Cadastro">
+				<p:menuitem action="#" value="Produto"/>
+				<p:menuitem action="#" value="Cliente"/>
+			</p:submenu>
+			<p:submenu label="Dados">
+				<p:menuitem action="#" value="Importar produtos csv"/>
+			</p:submenu>
+		</p:menubar>
+	</h:form>
+	
+	
+	<p:graphicImage url="img/Penguins.jpg" width="100%"/>
+	</p:panel>
+</h:body>
+</html>
