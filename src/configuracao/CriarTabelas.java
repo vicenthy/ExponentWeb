@@ -1,21 +1,25 @@
 package configuracao;
 
-import org.hibernate.cfg.AnnotationConfiguration;
+import javax.faces.bean.ManagedBean;
+
+import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
+@ManagedBean(name="beanBanco")
 public class CriarTabelas {
 
 	
+
+public CriarTabelas() {
+
+
+}
 	
-	public static void main(String[] args) {
-		criarTabelas();
-	}
 	
-	
-	public static void criarTabelas(){
+	public String criarTabelas(){
 	try {
 	
-		AnnotationConfiguration cfg = new AnnotationConfiguration();
+		Configuration cfg = new Configuration();
 		cfg.configure("config/pgsql_hibernate.cfg.xml");
 		SchemaExport se = new SchemaExport(cfg);
 		se.create(true, true);
@@ -27,6 +31,7 @@ public class CriarTabelas {
 	}
 	
 	
+	return "sistema.jsf";
 	}
 	
 	

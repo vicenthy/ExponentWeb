@@ -69,7 +69,7 @@ return null;
 	
 	private void openSession() {
 try {
-session = HibernateUtil.getSessionFactory().openSession();
+session = HibernateUtil.getSessionFactory().getCurrentSession();
 } catch (Exception e) {
 	e.printStackTrace();
 	

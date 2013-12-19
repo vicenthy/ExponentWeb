@@ -6,7 +6,6 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-<f:view contentType="text/html">
 
 <h:head>
 <style>
@@ -17,7 +16,7 @@
 
 	<title>Pagina Pedido</title>
 </h:head>
-<h:body>
+<h:body> 
 	<p:panel header="Sistema de Pedidos Online - VERSÃO DE TESTE">
 
 <!-- Form de busca para carregar um cliente no managed bean -->
@@ -37,10 +36,11 @@
 
 <!-- Form para carregar os itens para montar o pedido -->
 		<h:form id="fmPedido">
-			<p:panel header="Produtos em orçamento">
+			<p:panel header="Produtos em orçamento" >
 				<p:commandButton value="Adcionar Produtos" onclick="dlgprod.show();" />
+				<p:commandButton value="Limpar pedido" action="#{beanPedido.limparPedido}" update="fmPedido"/>
 				<p:dataTable var="v" value="#{beanPedido.itenPedidos}"
-					paginator="true" rows="10">
+					paginator="true" rows="10" >
 					<p:column headerText="codigo">
 						<h:outputText value="#{v.produto.codigo}" />
 					</p:column>
@@ -67,6 +67,7 @@
 					</p:column>
 				</p:dataTable>
 			</p:panel>
+
 
 			<h:panelGrid columns="3">
 				<p:outputLabel value="Escolha a forma de Pagamento:" />
@@ -194,6 +195,4 @@
 	
 	</p:panel>
 </h:body>
-</f:view>
-
 </html>

@@ -4,29 +4,37 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
+import javax.faces.bean.ManagedBean;
+
 import org.hibernate.Session;
+import org.primefaces.model.UploadedFile;
 
 import persistence.ClassDao;
 import persistence.HibernateUtil;
 import entity.Produto;
 
+
+@ManagedBean(name="beanImportar")
 public class ImportarProdutos {
 
 	
-	private String diretorio = "";
+	private String diretorio;
 	private Produto produto;
-	
-	
-	
+	private Session  session;
+	private ClassDao<Produto> dao;
+	private UploadedFile file;
 
 
-public ImportarProdutos(String diretorio) { 
-		super();
-		this.diretorio = diretorio;
-	}
+public ImportarProdutos() { 
 
-Session session = HibernateUtil.getSessionFactory().openSession();
-ClassDao<Produto> dao = new ClassDao<Produto>(Produto.class, session);
+	session = HibernateUtil.getSessionFactory().getCurrentSession();
+	dao = new ClassDao<Produto>(Produto.class, session);
+
+}
+
+
+
+
 
 public void lerArquivo(){
 
@@ -95,6 +103,24 @@ public File abrirArquivo(String diretorio){
 
 
 
+
+
+public UploadedFile getFile() {
+	return file;
+}
+
+
+
+
+
+public void setFile(UploadedFile file) {
+	this.file = file;
+}
+
+
+
+
+
 public String getDiretorio() {
 	return diretorio;
 }
@@ -122,6 +148,10 @@ public void setProduto(Produto produto) {
 
 
 
+public String teste(){
+	System.out.println(file.getFileName());
+	return null;
+}
 
 
 

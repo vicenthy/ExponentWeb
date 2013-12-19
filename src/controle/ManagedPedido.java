@@ -38,8 +38,7 @@ public class ManagedPedido {
 	private String valor;
 
 	public ManagedPedido() {
-
-		session = HibernateUtil.getSessionFactory().openSession();
+		openSession();
 		daoPedido = new ClassDao<Pedido>(Pedido.class, session);
 		daoItensPedido = new ClassDao<ItenPedido>(ItenPedido.class, session);
 		produto = new Produto();
@@ -116,6 +115,13 @@ public class ManagedPedido {
 	}
 	
 	
+	public String limparPedido(){
+		
+		itenPedidos.clear();
+		valor = "0,00";
+		return null;
+	}
+	
 	public String finalizarPedido(){
 		pedido.setStatus("Em aberto");
 		
@@ -131,6 +137,12 @@ public class ManagedPedido {
 		return null;
 	}
 	
+	
+	public String openSession(){
+		session = HibernateUtil.getSessionFactory().getCurrentSession();
+		return null;
+		
+	}
 	
 	
 	//Fims Negócios

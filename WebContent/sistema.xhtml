@@ -12,7 +12,10 @@
 </h:head>
 <h:body>
 <p:panel header="Sistema de Pedido Online - VERSÃO DE TESTE">
+
+
 	<h:form >
+	
 		<p:menubar >
 			<p:submenu label="Pedido" >
 				<p:menuitem action="pedido.jsf" ajax="false" value="Emitir Pedido"/>
@@ -21,14 +24,20 @@
 				<p:menuitem action="#" value="Produto"/>
 				<p:menuitem action="#" value="Cliente"/>
 			</p:submenu>
-			<p:submenu label="Dados">
-				<p:menuitem action="#" value="Importar produtos csv"/>
+			<p:submenu label="Configuração de Dados">
+				<p:menuitem action="#{beanBanco.criarTabelas}" value="Reiniciar Bando de dados " onclick="return confirm('Dejesa Realmente deletar o banco?')"/>
+				<p:menuitem action="#" value="Importar arquivo CSV" onclick="dglupload.show();"/>
 			</p:submenu>
 		</p:menubar>
-	</h:form>
-	
-	
+	</h:form>	
 	<p:graphicImage url="img/Penguins.jpg" width="100%"/>
 	</p:panel>
+	
+	<h:form id="formUp">
+	<p:dialog widgetVar="dglupload" header="Importação de Arquivo CSV" modal="true">
+	<p:fileUpload value="#{beanImportar.diretorio}" mode="simple" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
+	<p:commandButton action="#{beanImportar.file}" value="Iniciar" update="formUp" />
+	</p:dialog>
+	</h:form>
 </h:body>
 </html>
