@@ -27,8 +27,8 @@ public class ImportarProdutos {
 
 public ImportarProdutos() { 
 
-	session = HibernateUtil.getSessionFactory().getCurrentSession();
-	dao = new ClassDao<Produto>(Produto.class, session);
+	//session = HibernateUtil.getSessionFactory().getCurrentSession();
+	dao = new ClassDao<Produto>(Produto.class);
 
 }
 

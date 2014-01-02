@@ -9,6 +9,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import persistence.HibernateUtil;
@@ -49,10 +50,11 @@ public class FiltroHibernate implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		
 		try {
+			System.out.println("Iniciando Transação");
 			sf.getCurrentSession().beginTransaction();
 			chain.doFilter(request, response);
+			System.out.println("Comitando Transação");
 			sf.getCurrentSession().getTransaction().commit();
 			
 		} catch (Throwable e) {
@@ -77,8 +79,12 @@ public class FiltroHibernate implements Filter {
 	 * @see Filter#init(FilterConfig)
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
-
+		System.out.println("Iniciando configuração de SessionFactory");
 		sf = HibernateUtil.getSessionFactory();
+		
+		if(sf.getCurrentSession().isOpen()){
+			System.out.println("Session aberta");
+		}
 	
 	}
 

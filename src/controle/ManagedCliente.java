@@ -18,14 +18,14 @@ public class ManagedCliente {
 	
 	private Cliente cliente;
 	private List<Cliente> clinteList;
-	private Session session = null;
+	//private Session session = null;
 	private ClassDao<Cliente> dao;
 	
 	
 	
 	public ManagedCliente() {
-		openSession();
-		dao = new ClassDao<Cliente>(Cliente.class, session);			
+	//	openSession();
+		dao = new ClassDao<Cliente>(Cliente.class);			
 		cliente = new Cliente();
 		clinteList = new ArrayList<Cliente>();
 
@@ -66,7 +66,7 @@ return null;
 }
 	
 	
-	
+	/*
 	private void openSession() {
 try {
 session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -77,7 +77,7 @@ session = HibernateUtil.getSessionFactory().getCurrentSession();
 
 
 		
-	}
+	}*/
 	
 	
 	

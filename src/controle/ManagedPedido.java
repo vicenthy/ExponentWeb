@@ -25,9 +25,10 @@ public class ManagedPedido {
 	
 	private Pedido pedido;
 	private List<Pedido> pedidosList;
-	private Session session;
-	private ClassDao<Pedido> daoPedido = null;
-	private ClassDao<ItenPedido> daoItensPedido = null;
+	//private Session session;
+	private ClassDao<Pedido> daoPedido;
+	private ClassDao<ItenPedido> daoItensPedido ;
+	private ClassDao<Cliente> daoCliente;
 	private ItenPedido itenPedido;
 	private List<ItenPedido> itenPedidos;
 	private Cliente cliente;
@@ -38,9 +39,9 @@ public class ManagedPedido {
 	private String valor;
 
 	public ManagedPedido() {
-		openSession();
-		daoPedido = new ClassDao<Pedido>(Pedido.class, session);
-		daoItensPedido = new ClassDao<ItenPedido>(ItenPedido.class, session);
+		daoPedido = new ClassDao<Pedido>(Pedido.class);
+		daoCliente = new ClassDao<Cliente>(Cliente.class);
+		daoItensPedido = new ClassDao<ItenPedido>(ItenPedido.class);
 		produto = new Produto();
 		cliente = new Cliente();
 		qtdProd = 1;
@@ -67,6 +68,8 @@ public class ManagedPedido {
 	public String selecionado(){
 		
 		pedido = new Pedido();
+		
+		
 		DecimalFormat df = new DecimalFormat("0.00");
 		String con[] = new String[1];
 		con = valor.split(",");
@@ -77,6 +80,7 @@ public class ManagedPedido {
 	pedido.setCliente(cliente);
 	pedido.setDtPedido(new Date());
 	pedido.setTotal(total);
+	System.out.println("Valor do Total do Pedidos:  "+total.toString());
 	itenPedido.setPedido(pedido);
 	itenPedido.setProduto(produto);
 	itenPedido.setQtd(qtdProd);
@@ -122,27 +126,44 @@ public class ManagedPedido {
 		return null;
 	}
 	
+	
+	
 	public String finalizarPedido(){
-		pedido.setStatus("Em aberto");
-		
-		for(int i = 0; i< itenPedidos.size(); i++){
+		System.out.println(pedido.toString());
+	
+			//por default o pedido é setado como aberto
+			pedido.setStatus("Em aberto");
+			
+			try {			
+			//sessão chegando como null aqui
+			pedido = daoPedido.save(pedido);
+
 				
-			itenPedido.setPedido(pedido);
-			itenPedido.setProduto(itenPedidos.get(i).getProduto());
-			itenPedido.setQtd(qtdProd);
-		}
-		
+				for(int i = 0; i< itenPedidos.size(); i++){
+					
+					itenPedido.setPedido(pedido);
+					itenPedido.setProduto(itenPedidos.get(i).getProduto());
+					itenPedido.setQtd(qtdProd);
+					daoItensPedido.create(itenPedido);
+				}
+				System.out.println(">>>>>>>>>>>PEDIDO CRIADO COM SUCESSO!!!!!!!<<<<<<<<<");
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+			
+			}
 	
 		
 		return null;
 	}
 	
 	
-	public String openSession(){
+ /*	public String openSession(){
 		session = HibernateUtil.getSessionFactory().getCurrentSession();
 		return null;
 		
-	}
+	}*/
 	
 	
 	//Fims Negócios

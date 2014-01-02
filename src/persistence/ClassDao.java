@@ -19,14 +19,13 @@ public class ClassDao<T> implements IDao<T>{
 
 	private Class<T> entity;
 	private Session session;
-	private Transaction tx;
 	
 	
 	
 	
-	public ClassDao(Class<T> entity, Session session) {
+	public ClassDao(Class<T> entity) {
 	this.entity = entity;
-	this.session = session;
+	session = HibernateUtil.getSessionFactory().getCurrentSession();
 	}
 	
 	
@@ -35,25 +34,33 @@ public class ClassDao<T> implements IDao<T>{
 	@Override
 	public void create(T t) {
 		try {
-			tx = session.beginTransaction();
+	    	session = HibernateUtil.getSessionFactory().getCurrentSession();
 			session.save(t);
-			tx.commit();
-			
 		} catch (HibernateException e) {
-			tx.rollback();
 			e.printStackTrace();
 		}
+	
+	}
+	
+	
+	public T save(T t) {
+		try {
+	    	session = HibernateUtil.getSessionFactory().getCurrentSession();
+			session.save(t);			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
+		
+		return t;
 	
 	}
 	
 	@Override
 	public void update(T t) {
 		try {
-			tx = session.beginTransaction();
+	    	session = HibernateUtil.getSessionFactory().getCurrentSession();
 			session.update(t);
-			tx.commit();			
 		} catch (HibernateException e) {
-			tx.rollback();
 			e.printStackTrace();
 		}
 		
@@ -63,11 +70,10 @@ public class ClassDao<T> implements IDao<T>{
 	public void delete(T t) {
 		
 		try {
-			tx = session.beginTransaction();
+	    	session = HibernateUtil.getSessionFactory().getCurrentSession();
+
 			session.delete(t);
-			tx.commit();			
 		} catch (HibernateException e) {
-			tx.rollback();
 			e.printStackTrace();
 		}
 	
@@ -102,6 +108,8 @@ public class ClassDao<T> implements IDao<T>{
 	 @SuppressWarnings("unchecked")
 	public List<T> consultaByTipo(int startIndex, Integer sizeBlock, int tipoConsulta, String campo, Object valor) {
 
+	    	session = HibernateUtil.getSessionFactory().getCurrentSession();
+
          Criteria crit = session.createCriteria(entity);
          if(tipoConsulta==0){
               crit.add(Restrictions.ilike(campo, "%"+valor+"%"));
@@ -132,7 +140,10 @@ public class ClassDao<T> implements IDao<T>{
 
     public Criteria consultaByTipoCriteria(int startIndex, Integer sizeBlock, int tipoConsulta, String campo, Object valor) {
 
-        Criteria crit = session.createCriteria(entity);
+    	
+    	session = HibernateUtil.getSessionFactory().getCurrentSession();
+
+    	Criteria crit = session.createCriteria(entity);
         if(tipoConsulta==0){
              crit.add(Restrictions.ilike(campo, "%"+valor+"%"));
         }if(tipoConsulta==1){

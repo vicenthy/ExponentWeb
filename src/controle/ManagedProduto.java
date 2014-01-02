@@ -19,7 +19,7 @@ public class ManagedProduto {
 	
 	private Produto produto;
 	private List<Produto> produtoList;
-	private Session session;
+	//private Session session;
 	private ClassDao<Produto> dao;
 	private Integer tipoConsulta;
 	private String campo;
@@ -27,9 +27,8 @@ public class ManagedProduto {
 	
 	
 	public ManagedProduto() {
-
-session = HibernateUtil.getSessionFactory().openSession();
-dao = new ClassDao<Produto>(Produto.class, session);
+	//	session = HibernateUtil.getSessionFactory().getCurrentSession();
+	dao = new ClassDao<Produto>(Produto.class);
 	produto = new Produto();
 	produtoList = new ArrayList<Produto>();
 	}
