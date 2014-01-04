@@ -21,7 +21,6 @@ public class Test {
 	
 		
 		
-		Session session = HibernateUtil.getSessionFactory().openSession();
 		
 		ClassDao<Produto> daoP = new ClassDao<Produto>(Produto.class);
 		ClassDao<Cliente> daoC = new ClassDao<Cliente>(Cliente.class);

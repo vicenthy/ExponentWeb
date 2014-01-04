@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:p="http://primefaces.org/ui">
+ <!--  <meta http-equiv="refresh" content="60"/> -->
+    <h:head>
+        
+        <style type="text/css">
+            body {
+                font-family: geneva, arial, helvetica, sans-serif;
+                font-size: 80%;
+            }
+        </style>
+
+        <title>Sistema de Pedido Online - VERSÃO BETA TESTE</title>
+    </h:head>
+    <h:body>
+    <f:view>
+        <!-- Full layout -->
+        <p:layout fullPage="true">
+
+            <!-- cabeçalho-->
+            <p:layoutUnit position="north" header="Sistema de Pedido Online - VERSÃO BETA TESTE" >
+                <h:form>
+                    <p:commandLink value="Acesso ao Sistema" action="#"/>
+                </h:form>
+            </p:layoutUnit>
+
+            <!-- Menu lateral direito-->
+            <p:layoutUnit position="west" size="200"  collapsible="true">
+                <h:form>
+                    <p:menu style="width: 180px;" >
+                        <p:submenu label="Menu" style="font-size: 15pt;"/>
+                        <p:menuitem value="Emitir Pedidos"  action="pedido" style="font-size: 15pt;"/>
+                        <p:menuitem value="Ver Pedidos" action="verPedidos" style="font-size: 15pt;"/>
+                        <p:menuitem value="Parametrização" action="sistema" style="font-size: 15pt;"/>
+                    </p:menu>
+                </h:form>
+            </p:layoutUnit>
+
+
+            <!-- rodapé-->
+            <p:layoutUnit position="south" >
+                Sistema de Pedido Online - VERSÃO BETA TESTE 
+            </p:layoutUnit>
+
+            <!-- conteudo -->
+            <p:layoutUnit position="center">
+
+                <!-- monitor de eventos ajax -->
+                <p:ajaxStatus style="width:16px;height:16px;" id="ajaxStatusPanel">
+                    <f:facet name="start">
+                        <h:graphicImage value="img/ajax-loader.gif" />
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus>
+
+<!-- 
+<p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();"/>  
+              
+<p:dialog modal="true" widgetVar="statusDialog" header="Status"   
+        draggable="false" closable="false">  
+    <p:graphicImage value="/design/ajaxloadingbar.gif" />  
+</p:dialog>  
+-->  
+
+
+                <ui:insert name="conteudo">
+
+                </ui:insert>
+            </p:layoutUnit> 
+        </p:layout>
+
+ <ui:insert name="dialogs" />
+
+</f:view>
+    </h:body>
+</html>

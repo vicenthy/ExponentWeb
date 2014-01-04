@@ -81,6 +81,8 @@ public class ClassDao<T> implements IDao<T>{
 	
 	@Override
 	public List<T> findAll() {
+    	session = HibernateUtil.getSessionFactory().getCurrentSession();
+
 		@SuppressWarnings("unchecked")
 		List<T> lista = (List<T>)session.createCriteria(entity).list();
 		return lista;

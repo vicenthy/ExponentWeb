@@ -36,8 +36,10 @@ public ImportarProdutos() {
 
 
 
-public void lerArquivo(){
+public String lerArquivo(){
 
+	
+	System.out.println("Diretorio recuperado:  "+diretorio);
 	int cont = 0;
 	String Slinha [] = new String[4];
 	 String linha = "";
@@ -79,7 +81,7 @@ public void lerArquivo(){
 		
 	
 	}
-	
+	return null;
 	
 }
 

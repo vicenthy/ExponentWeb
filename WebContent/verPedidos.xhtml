@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+
+
+<ui:decorate template="template.xhtml">
+        <ui:define name="conteudo">
+
+
+
+	<p:dataTable var="v" value="#{beanVerpedido.itenpedidos}"
+					paginator="true" rows="15" >
+					<p:column headerText="Ref">
+						<h:outputText value="#{v.objref}" />
+					</p:column>
+					<p:column headerText="Data do pedido">
+						<h:outputText value="#{v.dtPedido}" >
+						<f:convertDateTime pattern="MM/dd/yyyy"/>
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="Cliente">
+						<h:outputText value="#{v.cliente.nome}" />
+				
+					</p:column>
+						<p:column headerText="Obs. parcelamento">
+						<h:outputText value="#{v.percelamento}" />
+					</p:column>
+				
+					<p:column headerText="Valor Total do pedido">
+						<h:outputText value="#{v.total}" >
+                        <f:convertNumber currencySymbol="R$" type="currency"/>  
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Status do pedido">
+						<h:outputText value="#{v.status}" rendered="#{v.status == 'Em aberto'}"  style="color:red;"/>
+						<h:outputText value="#{v.status}" rendered="#{v.status == 'Fechado'}" style="color:blue;"/>
+					</p:column>
+					</p:dataTable>
+
+</ui:define>
+</ui:decorate>
+
+
+
+</html>

@@ -7,25 +7,14 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-<h:head>
-<style>
-.ui-widget,.ui-widget .ui-widget {
-	font-size: 11px !important;
-}
-</style>
-
-	<title>Pagina Pedido</title>
-</h:head>
-<h:body> 
-	<p:panel header="Sistema de Pedidos Online - VERSÃO DE TESTE">
+<ui:decorate template="template.xhtml">
+        <ui:define name="conteudo">
 
 <!-- Form de busca para carregar um cliente no managed bean -->
 		<h:form id="pgCli">
 			<h:panelGrid columns="5">
 				<p:outputLabel value="Cliente: " />
-				<p:inputText value="#{beanPedido.cliente.nome}" />
-				<p:outputLabel value="Codigo: " />
-				<p:inputText value="#{beanPedido.cliente.objref}" />
+				<p:inputText value="#{beanPedido.cliente.nome}" disabled="true"/>
 				<p:commandButton value="Buscar Cliente" onclick="dglCli.show();" />
 			</h:panelGrid>
 		</h:form>
@@ -68,7 +57,7 @@
 						</p:commandButton>
 					</p:column>
 				</p:dataTable>
-			</p:panel>
+				</p:panel>
 
 
 			<h:panelGrid columns="3">
@@ -81,7 +70,7 @@
 					<f:selectItem itemLabel="Cartão" itemValue="Cartão" />
 				</p:selectOneRadio>
 			</h:panelGrid>
-			<p:outputLabel value="Observações:" />
+			<p:outputLabel value="Observações do tipo de parcelamento:" />
 			<br />
 			<p:inputTextarea value="#{beanPedido.pedido.percelamento}" cols="50" rows="3" />
 			<br />
@@ -96,11 +85,63 @@
 
 
 
+	
+		
+
+
+			</ui:define>
+		
+		
+<ui:define name="dialogs">
+<!-- Dialog pra busca de Cliente -->
+		<h:form id="fmCli">
+			<p:dialog widgetVar="dglCli" modal="true" position="top" width="50%">
+				<h:panelGrid columns="5" width="200">
+					<p:outputLabel value="Pesquisar:  " />
+					
+					<p:selectOneMenu value="#{beanProduto.campo}">
+						<f:selectItem itemLabel="Nome do Cliente" itemValue="objref" />
+						<f:selectItem itemLabel="Ref do Cliente" itemValue="nome" />
+						<f:selectItem itemLabel="Loja do cliente" itemValue="nomeLoja" />
+					</p:selectOneMenu>
+					<p:selectOneMenu value="#{beanProduto.tipoConsulta}">
+						<f:selectItem itemLabel="Que contenha..." itemValue="0" />
+						<f:selectItem itemLabel="Começando com..." itemValue="3" />
+						<f:selectItem itemLabel="Terminando com..." itemValue="2" />
+					</p:selectOneMenu>
+					<p:inputText value="#{beanProduto.pesProd}" />
+					<p:commandButton icon="ui-icon-search"
+						actionListener="#{beanProduto.findProd}" update="fmCli:tdcli" />
+				</h:panelGrid>
+				<p:dataTable id="tdcli" value="#{beancliente.clinteList}" var="c">
+					<p:column headerText="Ref">
+					<h:outputText value="#{c.objref}"/>
+					</p:column>
+					<p:column headerText="Nome">
+					<h:outputText value="#{c.nome}"/>
+					</p:column>
+					<p:column headerText="Loja">
+					<h:outputText value="#{c.nomeLoja}"/>
+					</p:column>
+						<p:column headerText="Opções">
+						<p:commandButton value="Selecionar"
+							action="#{beancliente.selecionado}" update=":pgCli">
+							<f:setPropertyActionListener target="#{beanPedido.cliente}"
+								value="#{c}" />
+						</p:commandButton>
+						</p:column>
+				</p:dataTable>
+			</p:dialog>
+		</h:form>
+		<!-- Fim Dialog Busca de Cliente -->
+		
+		
+				
 
 <!-- Dialog para busca de produtos -->
 		<h:form id="fmdlgProd">
 			<p:dialog widgetVar="dlgprod" id="dgl" header="Pesquisa de Produto"
-				modal="true" width="90%" position="top">
+				modal="true" width="90%" position="top" >
 				<h:panelGrid columns="5" id="dlggrig">
 					<p:outputLabel value="Pesquisar:  " />
 					<p:selectOneMenu value="#{beanProduto.campo}">
@@ -146,58 +187,12 @@
 						</p:commandButton>
 					</p:column>
 				</p:dataTable>
-			
 			</p:dialog>
 		</h:form>
 <!-- Fim Dialog para busca de produtos -->
-
-
-
-
-
-<!-- Dialog pra busca de Cliente -->
-		<h:form id="fmCli">
-			<p:dialog widgetVar="dglCli" modal="true" position="top">
-				<h:panelGrid columns="5">
-					<p:outputLabel value="Pesquisar:  " />
-					<p:selectOneMenu value="#{beanProduto.campo}">
-						<f:selectItem itemLabel="Nome do Cliente" itemValue="objref" />
-						<f:selectItem itemLabel="Ref do Cliente" itemValue="nome" />
-						<f:selectItem itemLabel="Loja do cliente" itemValue="nomeLoja" />
-					</p:selectOneMenu>
-					<p:selectOneMenu value="#{beanProduto.tipoConsulta}">
-						<f:selectItem itemLabel="Que contenha..." itemValue="0" />
-						<f:selectItem itemLabel="Começando com..." itemValue="3" />
-						<f:selectItem itemLabel="Terminando com..." itemValue="2" />
-					</p:selectOneMenu>
-					<p:inputText value="#{beanProduto.pesProd}" />
-					<p:commandButton icon="ui-icon-search"
-						actionListener="#{beanProduto.findProd}" update="fmCli:tdcli" />
-				</h:panelGrid>
-				<p:dataTable id="tdcli" value="#{beancliente.clinteList}" var="c">
-					<p:column headerText="Ref">
-					<h:outputText value="#{c.objref}"/>
-					</p:column>
-					<p:column headerText="Nome">
-					<h:outputText value="#{c.nome}"/>
-					</p:column>
-					<p:column headerText="Loja">
-					<h:outputText value="#{c.nomeLoja}"/>
-					</p:column>
-						<p:column headerText="Opções">
-						<p:commandButton value="Selecionar"
-							action="#{beancliente.selecionado}" update=":pgCli">
-							<f:setPropertyActionListener target="#{beanPedido.cliente}"
-								value="#{c}" />
-						</p:commandButton>
-						</p:column>
-				</p:dataTable>
-			</p:dialog>
-		</h:form>
-		<!-- Fim Dialog Busca de Cliente -->
-		
+	</ui:define>
+	
+			</ui:decorate>
 		
 	
-	</p:panel>
-</h:body>
 </html>

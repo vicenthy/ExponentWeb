@@ -1,5 +1,6 @@
 package controle;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,9 +21,13 @@ import entity.Produto;
 
 @ManagedBean(name="beanPedido")
 @ViewScoped
-public class ManagedPedido {
+public class ManagedPedido implements Serializable {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Pedido pedido;
 	private List<Pedido> pedidosList;
 	//private Session session;
@@ -69,32 +74,29 @@ public class ManagedPedido {
 		
 		pedido = new Pedido();
 		
-		
-		DecimalFormat df = new DecimalFormat("0.00");
-		String con[] = new String[1];
-		con = valor.split(",");
-		valor = con[0]+"."+con[1];
+		valor = format(valor);
 		total = Double.parseDouble(valor);		
 	
 		
 	pedido.setCliente(cliente);
 	pedido.setDtPedido(new Date());
-	pedido.setTotal(total);
-	System.out.println("Valor do Total do Pedidos:  "+total.toString());
 	itenPedido.setPedido(pedido);
 	itenPedido.setProduto(produto);
 	itenPedido.setQtd(qtdProd);
+	
 	itenPedidos.add(itenPedido);
 	
 	total = total+( produto.getPreco()*qtdProd);	
 	
-
-			
-	
-	itenPedido = new ItenPedido();
+	pedido.setTotal(total);
+	System.out.println("Valor do Total do Pedidos:  "+total.toString());
+		itenPedido = new ItenPedido();
 		System.out.println(produto.getDescricao()+"  "+" qtd "+total+" "+"Cont "+itenPedidos.size());
 		
-	valor = df.format(total);
+		valor = format(total);
+		qtdProd = 1;
+		setQtdProd(qtdProd);
+		
 		return null;
 		
 	}
@@ -103,15 +105,11 @@ public class ManagedPedido {
 	public String remover(){
 		
 		//Formatar total para currency
-		DecimalFormat df = new DecimalFormat("0.00");
-		String con[] = new String[1];
-		con = valor.split(",");
-		valor = con[0]+"."+con[1];
+		valor = format(valor);
 		total = Double.parseDouble(valor);		
-
 		itenPedidos.remove(itenPedido);
 		total = total - (itenPedido.getProduto().getPreco()*itenPedido.getQtd());
-		valor = df.format(total);
+		valor = format(total);
 		pedido.setTotal(total);
 		return null;
 	
@@ -119,8 +117,25 @@ public class ManagedPedido {
 	}
 	
 	
+	
+	//Formata para separar por virgula
+	private String format(String valor){
+		String con[] = new String[1];
+		con = valor.split(",");
+		valor = con[0]+"."+con[1];
+		return valor;
+	}
+
+	//Formata para separar por ponto
+	private String format(Double valor){
+		DecimalFormat df = new DecimalFormat("0.00");
+		return df.format(valor);
+	}
+
+	
+	
+	
 	public String limparPedido(){
-		
 		itenPedidos.clear();
 		valor = "0,00";
 		return null;
@@ -130,32 +145,40 @@ public class ManagedPedido {
 	
 	public String finalizarPedido(){
 		System.out.println(pedido.toString());
-	
+	System.out.println("Numeros de produtos no momento: "+ itenPedidos.size());
 			//por default o pedido é setado como aberto
 			pedido.setStatus("Em aberto");
 			
 			try {			
 			//sessão chegando como null aqui
+				if(pedido.getFormaPg()==""){
+					pedido.setFormaPg("Dinheiro ");
+				}
 			pedido = daoPedido.save(pedido);
 
 				
 				for(int i = 0; i< itenPedidos.size(); i++){
-					
 					itenPedido.setPedido(pedido);
 					itenPedido.setProduto(itenPedidos.get(i).getProduto());
-					itenPedido.setQtd(qtdProd);
+					itenPedido.setQtd(itenPedidos.get(i).getQtd());
 					daoItensPedido.create(itenPedido);
+					itenPedido = new ItenPedido();
 				}
-				System.out.println(">>>>>>>>>>>PEDIDO CRIADO COM SUCESSO!!!!!!!<<<<<<<<<");
+				
 				
 			} catch (Exception e) {
 				e.printStackTrace();
 				
 			
 			}
-	
-		
-		return null;
+			
+			
+			System.out.println(">>>>>>>>>>>PEDIDO CRIADO COM SUCESSO!!!!!!!<<<<<<<<<");
+
+		cliente = new Cliente();
+		pedido = new Pedido();
+		itenPedidos = new ArrayList<ItenPedido>();
+		return "verPedidos.jsf";
 	}
 	
 	

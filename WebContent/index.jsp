@@ -13,6 +13,6 @@
 
 </head>
 <body>
-<jsp:forward page="sistema.jsf"></jsp:forward>
+<jsp:forward page="template.jsf"></jsp:forward>
 </body>
 </html>
