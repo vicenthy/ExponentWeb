@@ -2,10 +2,10 @@ package persistence;
 
 import java.util.List;
 
+
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 
@@ -25,7 +25,6 @@ public class ClassDao<T> implements IDao<T>{
 	
 	public ClassDao(Class<T> entity) {
 	this.entity = entity;
-	session = HibernateUtil.getSessionFactory().getCurrentSession();
 	}
 	
 	
@@ -71,7 +70,6 @@ public class ClassDao<T> implements IDao<T>{
 		
 		try {
 	    	session = HibernateUtil.getSessionFactory().getCurrentSession();
-
 			session.delete(t);
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -82,9 +80,8 @@ public class ClassDao<T> implements IDao<T>{
 	@Override
 	public List<T> findAll() {
     	session = HibernateUtil.getSessionFactory().getCurrentSession();
-
 		@SuppressWarnings("unchecked")
-		List<T> lista = (List<T>)session.createCriteria(entity).list();
+		List<T> lista = (List<T>)session.createCriteria(entity).addOrder(org.hibernate.criterion.Order.asc("objref")).list();
 		return lista;
 	}
 

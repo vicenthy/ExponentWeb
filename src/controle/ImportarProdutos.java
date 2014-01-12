@@ -2,15 +2,20 @@ package controle;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
+import javax.swing.filechooser.FileSystemView;
 
 import org.hibernate.Session;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
 import persistence.ClassDao;
-import persistence.HibernateUtil;
 import entity.Produto;
 
 
@@ -20,14 +25,12 @@ public class ImportarProdutos {
 	
 	private String diretorio;
 	private Produto produto;
-	private Session  session;
 	private ClassDao<Produto> dao;
 	private UploadedFile file;
 
 
 public ImportarProdutos() { 
 
-	//session = HibernateUtil.getSessionFactory().getCurrentSession();
 	dao = new ClassDao<Produto>(Produto.class);
 
 }
@@ -36,9 +39,24 @@ public ImportarProdutos() {
 
 
 
-public String lerArquivo(){
+public void lerArquivo( ) throws IOException{
 
+	System.out.println(file);
 	
+    FacesContext context = FacesContext.getCurrentInstance();
+    diretorio =  context.getExternalContext().getRealPath("/");
+   
+	//File[] f = File.listRoots();
+	//File f1 = new  File(f[0] +"/arquivo");
+	//f1.mkdir();
+	
+	diretorio = System.getProperty("user.home");
+	
+FileOutputStream fos = new FileOutputStream(diretorio);
+fos.write(file.getContents());
+fos.flush();
+fos.close();
+    
 	System.out.println("Diretorio recuperado:  "+diretorio);
 	int cont = 0;
 	String Slinha [] = new String[4];
@@ -48,7 +66,7 @@ public String lerArquivo(){
 		String un="";
 		String preco="";
 	try {
-		FileReader ler = new FileReader(abrirArquivo(diretorio));
+		FileReader ler = new FileReader(diretorio);
 		BufferedReader b = new BufferedReader(ler);
 		
 		// linha recebe a linha lida até a linha lida ser nula
@@ -81,7 +99,7 @@ public String lerArquivo(){
 		
 	
 	}
-	return null;
+	
 	
 }
 

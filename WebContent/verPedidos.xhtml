@@ -12,14 +12,13 @@
 <ui:decorate template="template.xhtml">
         <ui:define name="conteudo">
 
-
-
-	<p:dataTable var="v" value="#{beanVerpedido.itenpedidos}"
-					paginator="true" rows="15" >
+<h:form>
+	<p:dataTable var="v" value="#{beanVerpedido.pedidos}"
+					paginator="true" rows="15"  id="tdVerpedido" >
 					<p:column headerText="Ref">
 						<h:outputText value="#{v.objref}" />
 					</p:column>
-					<p:column headerText="Data do pedido">
+					<p:column headerText="Data do pedido" sortBy="dtPedido">
 						<h:outputText value="#{v.dtPedido}" >
 						<f:convertDateTime pattern="MM/dd/yyyy"/>
 						</h:outputText>
@@ -27,9 +26,8 @@
 					
 					<p:column headerText="Cliente">
 						<h:outputText value="#{v.cliente.nome}" />
-				
 					</p:column>
-						<p:column headerText="Obs. parcelamento">
+						<p:column headerText="Obs. parcelamento" sortBy="percelamento">
 						<h:outputText value="#{v.percelamento}" />
 					</p:column>
 				
@@ -38,12 +36,25 @@
                         <f:convertNumber currencySymbol="R$" type="currency"/>  
 						</h:outputText>
 					</p:column>
-					<p:column headerText="Status do pedido">
+					<p:column headerText="Status do pedido" >
 						<h:outputText value="#{v.status}" rendered="#{v.status == 'Em aberto'}"  style="color:red;"/>
 						<h:outputText value="#{v.status}" rendered="#{v.status == 'Fechado'}" style="color:blue;"/>
 					</p:column>
-					</p:dataTable>
+					<p:column headerText="Opções">
+					<p:commandButton value="Fechar Pedido" action="#{beanVerpedido.fechar}" update="tdVerpedido">
+					<f:setPropertyActionListener target="#{beanVerpedido.pedido}" value="#{v}" />
+					</p:commandButton>
+					
+					<p:commandButton value="Abrir Pedido" action="#{beanVerpedido.desfazer}" update="tdVerpedido">
+					<f:setPropertyActionListener target="#{beanVerpedido.pedido}" value="#{v}" />
+					</p:commandButton>
 
+					</p:column>
+					<p:column headerText="Opções">
+					<p:commandButton value="Detalhar Pedido" action="#"/>
+					</p:column>
+					</p:dataTable>
+</h:form>
 </ui:define>
 </ui:decorate>
 

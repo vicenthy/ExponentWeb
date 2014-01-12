@@ -39,7 +39,9 @@
 						<h:outputText value="#{v.produto.descricao}" />
 					</p:column>
 					<p:column headerText="Data Pedido">
-						<h:outputText value="#{v.pedido.dtPedido}" />
+						<h:outputText value="#{v.pedido.dtPedido}" >
+						<f:convertDateTime pattern="MM/dd/yyyy"/>
+						</h:outputText>
 					</p:column>
 					<p:column headerText="Quantidade">
 						<h:outputText value="#{v.qtd}" />

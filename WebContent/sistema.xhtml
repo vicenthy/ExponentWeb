@@ -11,15 +11,14 @@
 <ui:decorate template="template.xhtml">
         <ui:define name="conteudo">
 
-	<h:form >
-	
+	<h:form>	
 		<p:menubar >
 			<p:submenu label="Cadastro">
 				<p:menuitem action="#" value="Produto"/>
-				<p:menuitem action="#" value="Cliente"/>
+				<p:menuitem action="#" value="Cliente"/> 
 			</p:submenu>
 			<p:submenu label="Configuração de Dados">
-				<p:menuitem action="#{beanBanco.criarTabelas}" value="Reiniciar Bando de dados " onclick="return confirm('Dejesa Realmente deletar o banco?')"/>
+				<p:menuitem action="#{beanBanco.criarTabelas}" value="Reiniciar Banco de dados " onclick="return confirm('Dejesa Realmente deletar o banco?')"/>
 				<p:menuitem action="#" value="Importar arquivo CSV" onclick="dglupload.show();"/>
 			</p:submenu>
 		</p:menubar>
@@ -27,8 +26,8 @@
 	
 	<h:form id="formUp" enctype="multipart/form-data" >
 	<p:dialog widgetVar="dglupload" header="Importação de Arquivo CSV" modal="true" appendTo="@(body)" width="40%">
-	<p:fileUpload value="#{beanImportar.diretorio}" mode="simple" auto="true" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
-	<p:commandButton action="#{beanImportar.lerArquivo}" value="Iniciar" update="formUp" />
+	<p:fileUpload value="#{beanImportar.file}" mode="simple" allowTypes="/(\.|\/)(csv)$/"/>
+	<p:commandButton value="Iniciar" actionListener="#{beanImportar.lerArquivo}" ajax="false"/>
 	</p:dialog>
 	</h:form>
 </ui:define>

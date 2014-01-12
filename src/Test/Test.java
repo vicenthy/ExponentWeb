@@ -1,15 +1,7 @@
 package Test;
-import java.util.Date;
+import java.io.File;
 
-import org.hibernate.Session;
-
-import persistence.ClassDao;
-import persistence.HibernateUtil;
-
-import entity.Cliente;
-import entity.ItenPedido;
-import entity.Pedido;
-import entity.Produto;
+import javax.swing.filechooser.FileSystemView;
 
 public class Test {
 	
@@ -20,7 +12,7 @@ public class Test {
 	public static void main(String[] args) {
 	
 		
-		
+		/*
 		
 		ClassDao<Produto> daoP = new ClassDao<Produto>(Produto.class);
 		ClassDao<Cliente> daoC = new ClassDao<Cliente>(Cliente.class);
@@ -81,10 +73,14 @@ public class Test {
 			num++;
 		}
 		
+		*/
 		
-		
-System.out.println(daoI.findAll());
-		
+String diretorio;
+
+File[] f = File.listRoots();
+File f1 = new  File(f[0] +"/arquivo");
+f1.mkdir();
+diretorio = f[0] +"/arquivo";
 	}
 	
 	
