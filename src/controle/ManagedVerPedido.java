@@ -5,6 +5,10 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.persistence.criteria.Join;
+
+import org.hibernate.criterion.Restrictions;
+
 import persistence.ClassDao;
 import entity.ItenPedido;
 import entity.Pedido;
@@ -27,6 +31,7 @@ public class ManagedVerPedido {
 	
 	public ManagedVerPedido() {
 			daoPedido = new ClassDao<Pedido>(Pedido.class);
+			daoItenPedido = new ClassDao<ItenPedido>(ItenPedido.class);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -51,6 +56,14 @@ public class ManagedVerPedido {
 		System.out.println(pedido.getStatus());
 		
 		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public String verDetalhePedido(){
+		
+		itenPedidos = daoItenPedido.consultaByCriteria().createAlias("pedido", "p")
+						.add(Restrictions.eq("p.objref", pedido.getObjref())).list();
+			return null;
 	}
 	
 	
@@ -78,6 +91,20 @@ public class ManagedVerPedido {
 
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
+	}
+
+
+
+
+
+	public List<ItenPedido> getItenPedidos() {
+		return itenPedidos;
+	}
+
+
+
+	public void setItenPedidos(List<ItenPedido> itenPedidos) {
+		this.itenPedidos = itenPedidos;
 	}
 	
 	

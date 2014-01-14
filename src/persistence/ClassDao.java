@@ -175,6 +175,7 @@ public class ClassDao<T> implements IDao<T>{
     }
 
     public Criteria consultaByCriteria() {
+    	session = HibernateUtil.getSessionFactory().getCurrentSession();
         return session.createCriteria(entity);
     }
 	

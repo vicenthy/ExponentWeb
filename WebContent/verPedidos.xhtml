@@ -27,10 +27,6 @@
 					<p:column headerText="Cliente">
 						<h:outputText value="#{v.cliente.nome}" />
 					</p:column>
-						<p:column headerText="Obs. parcelamento" sortBy="percelamento">
-						<h:outputText value="#{v.percelamento}" />
-					</p:column>
-				
 					<p:column headerText="Valor Total do pedido">
 						<h:outputText value="#{v.total}" >
                         <f:convertNumber currencySymbol="R$" type="currency"/>  
@@ -40,22 +36,55 @@
 						<h:outputText value="#{v.status}" rendered="#{v.status == 'Em aberto'}"  style="color:red;"/>
 						<h:outputText value="#{v.status}" rendered="#{v.status == 'Fechado'}" style="color:blue;"/>
 					</p:column>
-					<p:column headerText="Opções">
-					<p:commandButton value="Fechar Pedido" action="#{beanVerpedido.fechar}" update="tdVerpedido">
+					<p:column headerText="Opções status">
+					<p:commandButton value="Fechar pedido " action="#{beanVerpedido.fechar}" update="tdVerpedido">
 					<f:setPropertyActionListener target="#{beanVerpedido.pedido}" value="#{v}" />
 					</p:commandButton>
 					
-					<p:commandButton value="Abrir Pedido" action="#{beanVerpedido.desfazer}" update="tdVerpedido">
+					<p:commandButton value="Abrir pedido" action="#{beanVerpedido.desfazer}" update="tdVerpedido">
 					<f:setPropertyActionListener target="#{beanVerpedido.pedido}" value="#{v}" />
 					</p:commandButton>
 
 					</p:column>
-					<p:column headerText="Opções">
-					<p:commandButton value="Detalhar Pedido" action="#"/>
+					<p:column headerText="Detalhe">
+					<p:commandButton value="Detalhe do Pedido" action="#{beanVerpedido.verDetalhePedido}" update=":fmCli:tddetalhe" onclick="dgldetalhe.show();">
+						<f:setPropertyActionListener target="#{beanVerpedido.pedido}" value="#{v}" />
+					</p:commandButton>
 					</p:column>
 					</p:dataTable>
 </h:form>
 </ui:define>
+
+
+<ui:define name="dialogs">
+<!-- Dialog pra busca de Cliente -->
+		<h:form id="fmCli">
+			<p:dialog widgetVar="dgldetalhe" header="Detalhe do Pedido" modal="true" position="top" width="50%">
+				<p:dataTable id="tddetalhe" value="#{beanVerpedido.itenPedidos}" var="i">
+					<p:column headerText="Ref">
+					<h:outputText value="#{i.pedido.objref}"/>
+					</p:column>
+					<p:column headerText="Produto">
+					<h:outputText value="#{i.produto.descricao}"/>
+					</p:column>
+					<p:column headerText="Preço Uni">
+					<h:outputText value="#{i.produto.preco}"/>
+					</p:column>
+					<p:column headerText="Un">
+					<h:outputText value="#{i.produto.un}"/>
+					</p:column>
+					<p:column headerText="Quantidade">
+					<h:outputText value="#{i.qtd}"/>
+					</p:column>
+				</p:dataTable>
+			</p:dialog>
+		</h:form>
+		<!-- Fim Dialog Busca de Cliente -->
+
+
+</ui:define>
+
+
 </ui:decorate>
 
 
