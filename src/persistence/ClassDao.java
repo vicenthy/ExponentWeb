@@ -81,7 +81,22 @@ public class ClassDao<T> implements IDao<T>{
 	public List<T> findAll() {
     	session = HibernateUtil.getSessionFactory().getCurrentSession();
 		@SuppressWarnings("unchecked")
-		List<T> lista = (List<T>)session.createCriteria(entity).addOrder(org.hibernate.criterion.Order.asc("objref")).list();
+		List<T> lista = (List<T>)session.createCriteria(entity).list();
+		return lista;
+	}
+	
+	
+	public List<T> findOrderAsc(String campo) {
+    	session = HibernateUtil.getSessionFactory().getCurrentSession();
+		@SuppressWarnings("unchecked")
+		List<T> lista = (List<T>)session.createCriteria(entity).addOrder(org.hibernate.criterion.Order.asc(campo)).list();
+		return lista;
+	}
+	
+	public List<T> findOrderDesc(String campo) {
+    	session = HibernateUtil.getSessionFactory().getCurrentSession();
+		@SuppressWarnings("unchecked")
+		List<T> lista = (List<T>)session.createCriteria(entity).addOrder(org.hibernate.criterion.Order.desc(campo)).list();
 		return lista;
 	}
 

@@ -72,7 +72,7 @@ public class ManagedVerPedido {
 	
 	
 	public List<Pedido> getPedidos() {
-	pedidos = daoPedido.findAll();
+	pedidos = daoPedido.findOrderDesc("objref");
 		return pedidos;
 	}
 

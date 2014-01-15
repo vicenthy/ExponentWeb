@@ -20,7 +20,7 @@
 					</p:column>
 					<p:column headerText="Data do pedido" sortBy="dtPedido">
 						<h:outputText value="#{v.dtPedido}" >
-						<f:convertDateTime pattern="MM/dd/yyyy"/>
+						<f:convertDateTime pattern="dd/MM/yyyy"/>
 						</h:outputText>
 					</p:column>
 					
@@ -80,11 +80,7 @@
 			</p:dialog>
 		</h:form>
 		<!-- Fim Dialog Busca de Cliente -->
-
-
 </ui:define>
-
-
 </ui:decorate>
 
 

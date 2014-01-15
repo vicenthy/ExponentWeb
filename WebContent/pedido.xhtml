@@ -98,24 +98,25 @@
 <!-- Dialog pra busca de Cliente -->
 		<h:form id="fmCli">
 			<p:dialog widgetVar="dglCli" modal="true" position="top" width="50%">
-				<h:panelGrid columns="5" width="200">
+					<h:panelGrid columns="5" width="200">
 					<p:outputLabel value="Pesquisar:  " />
-					
-					<p:selectOneMenu value="#{beanProduto.campo}">
-						<f:selectItem itemLabel="Nome do Cliente" itemValue="objref" />
-						<f:selectItem itemLabel="Ref do Cliente" itemValue="nome" />
+					<p:selectOneMenu value="#{beancliente.campo}">
+						<f:selectItem itemLabel="Nome do Cliente" itemValue="nome" />
+						<f:selectItem itemLabel="Ref do Cliente" itemValue="objref" />
 						<f:selectItem itemLabel="Loja do cliente" itemValue="nomeLoja" />
+						<f:selectItem itemLabel="CPF/CNPJ" itemValue="cpfCnpj" />
+						
 					</p:selectOneMenu>
-					<p:selectOneMenu value="#{beanProduto.tipoConsulta}">
+					<p:selectOneMenu value="#{beancliente.tipoConsulta}">
 						<f:selectItem itemLabel="Que contenha..." itemValue="0" />
 						<f:selectItem itemLabel="Começando com..." itemValue="3" />
 						<f:selectItem itemLabel="Terminando com..." itemValue="2" />
 					</p:selectOneMenu>
-					<p:inputText value="#{beanProduto.pesProd}" />
+					<p:inputText value="#{beancliente.pesCli}" />
 					<p:commandButton icon="ui-icon-search"
-						actionListener="#{beanProduto.findProd}" update="fmCli:tdcli" />
+						actionListener="#{beancliente.findCli}" update="fmCli:tdcli" />
 				</h:panelGrid>
-				<p:dataTable id="tdcli" value="#{beancliente.clinteList}" var="c">
+				<p:dataTable id="tdcli" value="#{beancliente.clienteList}" var="c">
 					<p:column headerText="Ref">
 					<h:outputText value="#{c.objref}"/>
 					</p:column>
@@ -125,11 +126,13 @@
 					<p:column headerText="Loja">
 					<h:outputText value="#{c.nomeLoja}"/>
 					</p:column>
+					<p:column headerText="CPF/CNPJ">
+					<h:outputText value="#{c.cpfCnpj}"/>
+					</p:column>
 						<p:column headerText="Opções">
 						<p:commandButton value="Selecionar"
 							action="#{beancliente.selecionado}" update=":pgCli">
-							<f:setPropertyActionListener target="#{beanPedido.cliente}"
-								value="#{c}" />
+							<f:setPropertyActionListener target="#{beanPedido.cliente}" value="#{c}" />
 						</p:commandButton>
 						</p:column>
 				</p:dataTable>

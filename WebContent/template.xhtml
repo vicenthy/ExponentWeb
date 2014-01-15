@@ -25,26 +25,27 @@
 
             <!-- cabeçalho-->
             <p:layoutUnit position="north" header="Sistema de Pedido Online - VERSÃO BETA TESTE" >
-                <h:form>
-                    <p:commandLink value="Acesso ao Sistema" action="#"/>
-                </h:form>
+           	<br/>
             </p:layoutUnit>
-
+            
+            
             <!-- Menu lateral direito-->
-            <p:layoutUnit position="west" size="200"  collapsible="true">
-                <h:form>
-                    <p:menu style="width: 180px;" >
-                        <p:submenu label="Menu" style="font-size: 15pt;"/>
-                        <p:menuitem value="Emitir Pedidos"  action="pedido" />
-                        <p:menuitem value="Ver Pedidos" action="verPedidos" />
-                        <p:menuitem value="Parametrização" action="sistema" />
-                    </p:menu>
-                </h:form>
-            </p:layoutUnit>
+            <p:layoutUnit position="west" header="Menu" collapsible="true" >
+             
+    	<h:form >
+        		 <p:slideMenu>
+          				<p:menuitem value="Emitir Pedidos"  action="pedido" />
+						<p:menuitem value="Ver Pedidos" action="verPedidos" />
+                        <p:submenu label="Cadastro">
+                        <p:menuitem value="Cliente" action="cadCliente" />
+                        </p:submenu>
+     			</p:slideMenu>              
+       	</h:form>
 
+             </p:layoutUnit>
 
             <!-- rodapé-->
-            <p:layoutUnit position="south" >
+            <p:layoutUnit position="south" size="20">
                 Sistema de Pedido Online - VERSÃO BETA TESTE 
             </p:layoutUnit>
 
@@ -52,7 +53,7 @@
             <p:layoutUnit position="center">
 
                 <!-- monitor de eventos ajax -->
-                <p:ajaxStatus style="width:16px;height:16px;" id="ajaxStatusPanel">
+                <p:ajaxStatus style="width:16px;height:16px;" id="ajaxStatusPanel" >
                     <f:facet name="start">
                         <h:graphicImage value="img/ajax-loader.gif" />
                     </f:facet>
@@ -60,7 +61,7 @@
                         <h:outputText value="" />
                     </f:facet>
                 </p:ajaxStatus>
-
+<br />
 <!-- 
 <p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();"/>  
               
@@ -69,6 +70,7 @@
     <p:graphicImage value="/design/ajaxloadingbar.gif" />  
 </p:dialog>  
 -->  
+
 
 
                 <ui:insert name="conteudo">

@@ -15,10 +15,16 @@ public CriarTabelas() {
 
 }
 	
+public static void main(String[] args) {
+	criar();
+}
+
+
+
 	
-	public String criarTabelas(){
+	public static String criar(){
 	try {
-	
+	System.out.println("Reiniciando banco...");
 		Configuration cfg = new Configuration();
 		cfg.configure("config/pgsql_hibernate.cfg.xml");
 		SchemaExport se = new SchemaExport(cfg);
@@ -31,8 +37,11 @@ public CriarTabelas() {
 	}
 	
 	
-	return "sistema.jsf";
+	return null;
 	}
+	
+	
+	
 	
 	
 }
