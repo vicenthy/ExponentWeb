@@ -1,15 +1,36 @@
 package controle;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.persistence.criteria.Join;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletResponse;
 
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+
+import org.apache.commons.collections.map.HashedMap;
+import org.apache.jasper.servlet.JasperLoader;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.engine.SessionFactoryImplementor;
 
 import persistence.ClassDao;
+import persistence.HibernateUtil;
 import entity.ItenPedido;
 import entity.Pedido;
 
@@ -66,6 +87,38 @@ public class ManagedVerPedido {
 			return null;
 	}
 	
+	
+	
+	public String imprimirSalvar(){
+		
+		try {
+			Connection con = ((SessionFactoryImplementor) HibernateUtil.getSessionFactory()).getConnectionProvider().getConnection();
+			
+		String arquivo =  FacesContext.getCurrentInstance().getExternalContext().getRealPath("relatorios\\report1.jrxml");
+		 
+		JasperReport jr =  JasperCompileManager.compileReport(arquivo);
+			
+		Map<String, Integer> parameters = new HashMap<String, Integer>();
+		parameters.put("cod_pedido", pedido.getObjref());
+		JasperPrint jp = JasperFillManager.fillReport(jr, parameters, con);
+		
+	HttpServletResponse res = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+	res.reset();
+	res.setContentType("application/pdf");
+	
+	OutputStream out = res.getOutputStream();
+	JasperExportManager.exportReportToPdfStream(jp, out);
+	out.flush();
+	out.close();
+	con.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return null;
+	}
 	
 	
 // Set e Get...

@@ -12,7 +12,7 @@
 <ui:decorate template="template.xhtml">
         <ui:define name="conteudo">
 
-<h:form>
+<h:form target="_blank">
 	<p:dataTable var="v" value="#{beanVerpedido.pedidos}"
 					paginator="true" rows="15"  id="tdVerpedido" >
 					<p:column headerText="Ref">
@@ -48,6 +48,11 @@
 					</p:column>
 					<p:column headerText="Detalhe">
 					<p:commandButton value="Detalhe do Pedido" action="#{beanVerpedido.verDetalhePedido}" update=":fmCli:tddetalhe" onclick="dgldetalhe.show();">
+						<f:setPropertyActionListener target="#{beanVerpedido.pedido}" value="#{v}" />
+					</p:commandButton>
+					</p:column>
+					<p:column headerText="Detalhe">
+					<p:commandButton value="Imprimir/Salvar" action="#{beanVerpedido.imprimirSalvar}" ajax="false" >
 						<f:setPropertyActionListener target="#{beanVerpedido.pedido}" value="#{v}" />
 					</p:commandButton>
 					</p:column>
