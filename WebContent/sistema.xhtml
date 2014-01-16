@@ -13,10 +13,6 @@
 
 	<h:form>	
 		<p:menubar >
-			<p:submenu label="Cadastro">
-				<p:menuitem action="#" value="Produto"/>
-				<p:menuitem action="cadCliente" value="Cliente"/> 
-			</p:submenu>
 			<p:submenu label="Configuração de Dados">
 				<p:menuitem action="#{beanBanco.criar}" value="Reiniciar Banco de dados " onclick="return confirm('Dejesa Realmente deletar o banco?')"/>
 				<p:menuitem action="#" value="Importar arquivo CSV" onclick="dglupload.show();"/>

@@ -33,11 +33,14 @@
             <p:layoutUnit position="west" header="Menu" collapsible="true" >
              
     	<h:form >
-        		 <p:slideMenu>
+        		 <p:slideMenu backLabel="Voltar" >
           				<p:menuitem value="Emitir Pedidos"  action="pedido" />
 						<p:menuitem value="Ver Pedidos" action="verPedidos" />
                         <p:submenu label="Cadastro">
                         <p:menuitem value="Cliente" action="cadCliente" />
+                        </p:submenu>
+                        <p:submenu label="Configuracão" >
+                        <p:menuitem value="Importar CSV" action="importacao" />
                         </p:submenu>
      			</p:slideMenu>              
        	</h:form>
@@ -69,11 +72,10 @@
         draggable="false" closable="false">  
     <p:graphicImage value="/design/ajaxloadingbar.gif" />  
 </p:dialog>  
--->  
+-->
 
 
-
-                <ui:insert name="conteudo">
+				<ui:insert name="conteudo">
 
                 </ui:insert>
             </p:layoutUnit> 

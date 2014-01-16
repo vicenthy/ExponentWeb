@@ -41,7 +41,6 @@ public class ManagedPedido implements Serializable {
 	private Produto produto;
 	private Double total;
 	private  Integer cont;
-	private String valor;
 
 	public ManagedPedido() {
 		daoPedido = new ClassDao<Pedido>(Pedido.class);
@@ -53,7 +52,7 @@ public class ManagedPedido implements Serializable {
 		itenPedidos = new ArrayList<ItenPedido>();
 		itenPedido = new ItenPedido();
 		pedido = new Pedido();
-		valor = "0,00";
+		total = 0.;
 		cont = 1;
 	}
 
@@ -73,11 +72,6 @@ public class ManagedPedido implements Serializable {
 	public String selecionado(){
 		
 		pedido = new Pedido();
-		
-		valor = format(valor);
-		total = Double.parseDouble(valor);		
-	
-		
 	pedido.setCliente(cliente);
 	pedido.setDtPedido(new Date());
 	itenPedido.setPedido(pedido);
@@ -92,28 +86,17 @@ public class ManagedPedido implements Serializable {
 	System.out.println("Valor do Total do Pedidos:  "+total.toString());
 		itenPedido = new ItenPedido();
 		System.out.println(produto.getDescricao()+"  "+" qtd "+total+" "+"Cont "+itenPedidos.size());
-		
-		valor = format(total);
-		qtdProd = 1;
-		setQtdProd(qtdProd);
-		
+		qtdProd = 1;		
 		return null;
 		
 	}
 	
 	
 	public String remover(){
-		
-		//Formatar total para currency
-		valor = format(valor);
-		total = Double.parseDouble(valor);		
 		itenPedidos.remove(itenPedido);
 		total = total - (itenPedido.getProduto().getPreco()*itenPedido.getQtd());
-		valor = format(total);
 		pedido.setTotal(total);
 		return null;
-	
-	
 	}
 	
 	
@@ -137,7 +120,7 @@ public class ManagedPedido implements Serializable {
 	
 	public String limparPedido(){
 		itenPedidos.clear();
-		valor = "0,00";
+		total = 0.;
 		return null;
 	}
 	
@@ -172,7 +155,6 @@ public class ManagedPedido implements Serializable {
 			
 			}
 			
-			
 			System.out.println(">>>>>>>>>>>PEDIDO CRIADO COM SUCESSO!!!!!!!<<<<<<<<<");
 
 		cliente = new Cliente();
@@ -182,13 +164,6 @@ public class ManagedPedido implements Serializable {
 	}
 	
 	
- /*	public String openSession(){
-		session = HibernateUtil.getSessionFactory().getCurrentSession();
-		return null;
-		
-	}*/
-	
-	
 	//Fims Negócios
 	
 	
@@ -196,13 +171,7 @@ public class ManagedPedido implements Serializable {
 	
 	
 //Metodos Gets Sets Para sincronização dos Beans
-	public String getValor() {
-		return valor;
-	}
 
-	public void setValor(String valor) {
-		this.valor = valor;
-	}
 
 	public Double getTotal() {
 		return total;

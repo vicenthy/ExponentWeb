@@ -74,13 +74,13 @@
 			</h:panelGrid>
 			<p:outputLabel value="Observações do tipo de parcelamento:" />
 			<br />
-			<p:inputTextarea value="#{beanPedido.pedido.percelamento}" cols="50" rows="3" />
+			<h:inputTextarea value="#{beanPedido.pedido.percelamento}" cols="50" rows="5"/>
 			<br />
 			<p:commandButton value="Finalizar Pedido" action="#{beanPedido.finalizarPedido}"/>
 			<p:outputLabel value="Total: " style="font-size: 30px;" />
-			<h:outputText value="R$:#{beanPedido.valor}"
+			<h:outputText value="#{beanPedido.total}"
 				style="font-size: 30px; color:blue;">
-				<f:convertNumber pattern="#0.00" />
+                        <f:convertNumber currencySymbol="R$" type="currency"/>  
 			</h:outputText>
 		</h:form>
 		<!-- Fim Form Pedido -->
@@ -97,15 +97,14 @@
 <ui:define name="dialogs">
 <!-- Dialog pra busca de Cliente -->
 		<h:form id="fmCli">
-			<p:dialog widgetVar="dglCli" modal="true" position="top" width="50%">
-					<h:panelGrid columns="5" width="200">
+			<p:dialog widgetVar="dglCli" modal="true" position="top" width="60%">
+					<h:panelGrid columns="6" width="200">
 					<p:outputLabel value="Pesquisar:  " />
 					<p:selectOneMenu value="#{beancliente.campo}">
 						<f:selectItem itemLabel="Nome do Cliente" itemValue="nome" />
 						<f:selectItem itemLabel="Ref do Cliente" itemValue="objref" />
 						<f:selectItem itemLabel="Loja do cliente" itemValue="nomeLoja" />
 						<f:selectItem itemLabel="CPF/CNPJ" itemValue="cpfCnpj" />
-						
 					</p:selectOneMenu>
 					<p:selectOneMenu value="#{beancliente.tipoConsulta}">
 						<f:selectItem itemLabel="Que contenha..." itemValue="0" />
@@ -115,6 +114,7 @@
 					<p:inputText value="#{beancliente.pesCli}" />
 					<p:commandButton icon="ui-icon-search"
 						actionListener="#{beancliente.findCli}" update="fmCli:tdcli" />
+						<p:commandButton value="Novo Cliente" action="cadCliente" style="width:120px;"/>
 				</h:panelGrid>
 				<p:dataTable id="tdcli" value="#{beancliente.clienteList}" var="c">
 					<p:column headerText="Ref">

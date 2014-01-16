@@ -68,7 +68,9 @@
 					<h:outputText value="#{i.produto.descricao}"/>
 					</p:column>
 					<p:column headerText="Preço Uni">
-					<h:outputText value="#{i.produto.preco}"/>
+					<h:outputText value="#{i.produto.preco}">
+					 <f:convertNumber currencySymbol="R$" type="currency"/>  
+					</h:outputText>
 					</p:column>
 					<p:column headerText="Un">
 					<h:outputText value="#{i.produto.un}"/>

@@ -46,7 +46,7 @@
 					<p:commandButton icon="ui-icon-search"
 						actionListener="#{beancliente.findCli}" update="fmCli:tdcli, :cadCli " />
 				</h:panelGrid>
-				<p:dataTable id="tdcli" value="#{beancliente.clienteList}" var="c">
+				<p:dataTable id="tdcli" value="#{beancliente.clienteList}" var="c" emptyMessage="Não foram encontrados registros ou a tabela ainda não foi carregada">
 					<p:column headerText="Ref">
 					<h:outputText value="#{c.objref}"/>
 					</p:column>
