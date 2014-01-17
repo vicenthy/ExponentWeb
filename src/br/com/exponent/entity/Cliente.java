@@ -1,10 +1,14 @@
-package entity;
+package br.com.exponent.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 @Entity(name="cliente")
@@ -21,6 +25,7 @@ public class Cliente {
 	
 	@Column(nullable=false)
 	private String cpfCnpj;
+	
 	
 	
 	public Cliente() {
@@ -49,8 +54,7 @@ public class Cliente {
 
 
 
-	
-	
+
 
 	public String getCpfCnpj() {
 		return cpfCnpj;

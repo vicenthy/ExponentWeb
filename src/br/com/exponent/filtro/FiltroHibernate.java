@@ -1,4 +1,4 @@
-package filtro;
+package br.com.exponent.filtro;
 
 import java.io.IOException;
 
@@ -12,7 +12,8 @@ import javax.servlet.annotation.WebFilter;
 
 import org.hibernate.SessionFactory;
 
-import persistence.HibernateUtil;
+import br.com.exponent.persistence.HibernateUtil;
+
 
 /**
  * Servlet Filter implementation class FiltroHibernate

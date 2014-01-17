@@ -1,5 +1,5 @@
 
-package persistence;
+package br.com.exponent.persistence;
 
 
 import org.hibernate.cfg.Configuration;
@@ -12,7 +12,7 @@ public class HibernateUtil {
     static {
         try {
             
-            sessionFactory = new Configuration().configure("config/pgsql_hibernate.cfg.xml").buildSessionFactory();
+            sessionFactory = new Configuration().configure("br/com/exponent/config/pgsql_hibernate.cfg.xml").buildSessionFactory();
         } catch (Throwable ex) {
             
             System.err.println("Initial SessionFactory creation failed." + ex);

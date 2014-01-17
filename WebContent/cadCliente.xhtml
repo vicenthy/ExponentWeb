@@ -24,7 +24,7 @@
 					<h:outputLabel value="CPF/CNPJ:" />
 					<h:inputText value="#{beancliente.cliente.cpfCnpj}" maxlength="14"  required="true" requiredMessage="CPF/CNPJ Obrigatório!"/>
 					<p:commandButton value="Salvar" action="#{beancliente.salvar}" update=":fmCli:tdcli, cadCli"/>
-					<p:commandButton value="Deletar" action="#{beancliente.delete}" update=":fmCli:tdcli, cadCli"/>
+					<p:commandButton value="Deletar" action="#{beancliente.delete}" onclick="return confirm('Deseja realmente deletar o cliente e todos os seus pedidos?')" update=":fmCli:tdcli, cadCli"/>
 				</h:panelGrid>
 			</h:form>
 		</p:fieldset>

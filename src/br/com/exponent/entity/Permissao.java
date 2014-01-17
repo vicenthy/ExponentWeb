@@ -1,4 +1,4 @@
-package entity;
+package br.com.exponent.entity;
 
 public class Permissao {
 	

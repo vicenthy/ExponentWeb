@@ -1,5 +1,6 @@
-package entity;
+package br.com.exponent.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,7 +14,7 @@ import javax.persistence.SequenceGenerator;
 
 
 @Entity
-public class ItenPedido {
+public class ItemPedido {
 	
 	
 	@Id
@@ -21,9 +22,10 @@ public class ItenPedido {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="objref_itenpedido")
 	private Integer objref;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="objref_pedido")
 	private Pedido pedido;
+	
 	@ManyToOne
 	@JoinColumn(name="objref_produto")
 	private Produto produto;
@@ -33,7 +35,7 @@ public class ItenPedido {
 	
 	
 	
-	public ItenPedido() {
+	public ItemPedido() {
 
 
 	}

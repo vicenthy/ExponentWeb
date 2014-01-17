@@ -1,4 +1,4 @@
-package controle;
+package br.com.exponent.controle;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
@@ -6,17 +6,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.hibernate.Session;
 
-import persistence.ClassDao;
-import persistence.HibernateUtil;
-import entity.Cliente;
-import entity.ItenPedido;
-import entity.Pedido;
-import entity.Produto;
+import br.com.exponent.entity.Cliente;
+import br.com.exponent.entity.ItemPedido;
+import br.com.exponent.entity.Pedido;
+import br.com.exponent.entity.Produto;
+import br.com.exponent.persistence.ClassDao;
+import br.com.exponent.persistence.HibernateUtil;
+
 
 
 @ManagedBean(name="beanPedido")
@@ -32,10 +35,10 @@ public class ManagedPedido implements Serializable {
 	private List<Pedido> pedidosList;
 	//private Session session;
 	private ClassDao<Pedido> daoPedido;
-	private ClassDao<ItenPedido> daoItensPedido ;
+	private ClassDao<ItemPedido> daoItensPedido ;
 	private ClassDao<Cliente> daoCliente;
-	private ItenPedido itenPedido;
-	private List<ItenPedido> itenPedidos;
+	private ItemPedido itenPedido;
+	private List<ItemPedido> itenPedidos;
 	private Cliente cliente;
 	private Integer qtdProd;
 	private Produto produto;
@@ -45,12 +48,12 @@ public class ManagedPedido implements Serializable {
 	public ManagedPedido() {
 		daoPedido = new ClassDao<Pedido>(Pedido.class);
 		daoCliente = new ClassDao<Cliente>(Cliente.class);
-		daoItensPedido = new ClassDao<ItenPedido>(ItenPedido.class);
+		daoItensPedido = new ClassDao<ItemPedido>(ItemPedido.class);
 		produto = new Produto();
 		cliente = new Cliente();
 		qtdProd = 1;
-		itenPedidos = new ArrayList<ItenPedido>();
-		itenPedido = new ItenPedido();
+		itenPedidos = new ArrayList<ItemPedido>();
+		itenPedido = new ItemPedido();
 		pedido = new Pedido();
 		total = 0.;
 		cont = 1;
@@ -84,7 +87,7 @@ public class ManagedPedido implements Serializable {
 	
 	pedido.setTotal(total);
 	System.out.println("Valor do Total do Pedidos:  "+total.toString());
-		itenPedido = new ItenPedido();
+		itenPedido = new ItemPedido();
 		System.out.println(produto.getDescricao()+"  "+" qtd "+total+" "+"Cont "+itenPedidos.size());
 		qtdProd = 1;		
 		return null;
@@ -128,12 +131,20 @@ public class ManagedPedido implements Serializable {
 	
 	public String finalizarPedido(){
 		System.out.println(pedido.toString());
+		FacesContext fc = FacesContext.getCurrentInstance();
+
+		if(cliente.getNome()==null || itenPedidos.size() < 1) {
+			FacesMessage ms = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error Insira os dados curretamente:", " Cliente ou Produto vazio");
+			fc.addMessage(null, ms);
+			return null;
+		}
+		
 	System.out.println("Numeros de produtos no momento: "+ itenPedidos.size());
 			//por default o pedido é setado como aberto
 			pedido.setStatus("Em aberto");
 			
 			try {			
-			//sessão chegando como null aqui
+				
 				if(pedido.getFormaPg()==""){
 					pedido.setFormaPg("Dinheiro ");
 				}
@@ -145,13 +156,15 @@ public class ManagedPedido implements Serializable {
 					itenPedido.setProduto(itenPedidos.get(i).getProduto());
 					itenPedido.setQtd(itenPedidos.get(i).getQtd());
 					daoItensPedido.create(itenPedido);
-					itenPedido = new ItenPedido();
+					itenPedido = new ItemPedido();
 				}
 				
 				
 			} catch (Exception e) {
 				e.printStackTrace();
-				
+				FacesMessage ms = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage());
+				fc.addMessage(null, ms);
+		
 			
 			}
 			
@@ -159,7 +172,7 @@ public class ManagedPedido implements Serializable {
 
 		cliente = new Cliente();
 		pedido = new Pedido();
-		itenPedidos = new ArrayList<ItenPedido>();
+		itenPedidos = new ArrayList<ItemPedido>();
 		return "verPedidos.jsf";
 	}
 	
@@ -205,19 +218,19 @@ public class ManagedPedido implements Serializable {
 		this.qtdProd = qtdProd;
 	}
 
-	public ItenPedido getItenPedido() {
+	public ItemPedido getItenPedido() {
 		return itenPedido;
 	}
 
-	public void setItenPedido(ItenPedido itenPedido) {
+	public void setItenPedido(ItemPedido itenPedido) {
 		this.itenPedido = itenPedido;
 	}
 
-	public List<ItenPedido> getItenPedidos() {
+	public List<ItemPedido> getItenPedidos() {
 		return itenPedidos;
 	}
 
-	public void setItenPedidos(List<ItenPedido> itenPedidos) {
+	public void setItenPedidos(List<ItemPedido> itenPedidos) {
 		this.itenPedidos = itenPedidos;
 	}
 

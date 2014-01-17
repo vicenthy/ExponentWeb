@@ -1,10 +1,11 @@
-package persistence;
+package br.com.exponent.persistence;
 
 import java.util.List;
 
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
@@ -37,7 +38,7 @@ public class ClassDao<T> implements IDao<T>{
 			session.save(t);
 		} catch (HibernateException e) {
 			e.printStackTrace();
-		}
+	}
 	
 	}
 	
@@ -102,6 +103,7 @@ public class ClassDao<T> implements IDao<T>{
 
 	@Override
 	public T findByCod(Integer cod) {
+    	session = HibernateUtil.getSessionFactory().getCurrentSession();
 			@SuppressWarnings("unchecked")
 			T result = (T) session.createCriteria(entity).add(Restrictions.idEq(cod)).uniqueResult();
 		return result;
@@ -185,8 +187,16 @@ public class ClassDao<T> implements IDao<T>{
 
     
     @SuppressWarnings("unchecked")
-	public List<T> consultaHQL(String consulta) {
-        return (List<T>) session.createQuery(consulta).list();
+	public List<T> consultaHQLList(String consulta) {
+        return (List<T>) session.createQuery(consulta);
+    }
+    
+    
+    public Query consultaHQL(String consulta) {
+  session = HibernateUtil.getSessionFactory().getCurrentSession();
+    	Query query = session.createQuery(consulta);
+       return query;
+    	
     }
 
     public Criteria consultaByCriteria() {

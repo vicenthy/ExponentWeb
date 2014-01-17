@@ -1,4 +1,4 @@
-package entity;
+package br.com.exponent.entity;
 
 import java.util.List;
 
@@ -32,7 +32,6 @@ public class Produto {
 	@Column
 	private Double preco;
 	
-	
 	public Produto() {
 
 
@@ -52,7 +51,23 @@ public class Produto {
 		this.preco = preco;
 	}
 
+	
+	
 
+
+
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+
+
+
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
 
 
 
@@ -65,20 +80,6 @@ public class Produto {
 
 	public void setObjref(Integer objref) {
 		this.objref = objref;
-	}
-
-
-
-
-	public String getcodigo() {
-		return codigo;
-	}
-
-
-
-
-	public void setcodigo(String codigo) {
-		this.codigo = codigo;
 	}
 
 

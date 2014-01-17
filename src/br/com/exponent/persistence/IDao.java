@@ -1,4 +1,4 @@
-package persistence;
+package br.com.exponent.persistence;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package controle;
+package br.com.exponent.controle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,9 +8,10 @@ import javax.faces.bean.ViewScoped;
 
 import org.hibernate.Session;
 
-import persistence.ClassDao;
-import persistence.HibernateUtil;
-import entity.Produto;
+import br.com.exponent.entity.Produto;
+import br.com.exponent.persistence.ClassDao;
+import br.com.exponent.persistence.HibernateUtil;
+
 
 @ManagedBean(name="beanProduto")
 @ViewScoped

@@ -1,4 +1,4 @@
-package entity;
+package br.com.exponent.entity;
 
 import java.util.List;
 

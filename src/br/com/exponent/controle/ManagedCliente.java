@@ -1,5 +1,6 @@
-package controle;
+package br.com.exponent.controle;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,22 +9,30 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
-import persistence.ClassDao;
-import persistence.HibernateUtil;
-import entity.Cliente;
+import br.com.exponent.entity.Cliente;
+import br.com.exponent.entity.ItemPedido;
+import br.com.exponent.entity.Pedido;
+import br.com.exponent.persistence.ClassDao;
+import br.com.exponent.persistence.HibernateUtil;
+
 
 @ManagedBean(name="beancliente")
 @ViewScoped
-public class ManagedCliente {
+public class ManagedCliente implements Serializable{
 
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6196083165206401225L;
 	private Cliente cliente;
 	private List<Cliente> clienteList;
-	//private Session session = null;
-	private ClassDao<Cliente> dao;
+	private ClassDao<Cliente> dao;		
+	private ClassDao<Pedido> daoPedido;		
+	private ClassDao<ItemPedido> daoItemPedido;			
 	private int tipoConsulta;
 	private String campo;
 	private String pesCli;
@@ -31,8 +40,8 @@ public class ManagedCliente {
 	
 	
 	public ManagedCliente() {
-		dao = new ClassDao<Cliente>(Cliente.class);			
 		cliente = new Cliente();
+		dao = new ClassDao<Cliente>(Cliente.class);			
 
 	}
 
@@ -115,6 +124,7 @@ public String selecionado(){
 
 public String salvar(){
 	
+
 	FacesContext fc = FacesContext.getCurrentInstance();
 	
 	if(cliente.getObjref()!=0){
@@ -122,10 +132,11 @@ public String salvar(){
 			dao.update(cliente);
 			fc.addMessage("cadCli", new FacesMessage("Cliente Salvo com sucesso!!!"));
 			cliente = new Cliente();
-			findCli();
+			clienteList = dao.findAll();
 		}catch(Exception e){
 			e.printStackTrace();
-			fc.addMessage("cadCli", new FacesMessage("Error: "+e.getMessage()));
+			FacesMessage ms = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", e.getMessage());
+			fc.addMessage(null, ms);
 		}
 		
 		return null;
@@ -135,31 +146,58 @@ public String salvar(){
 	try{
 		dao.create(cliente);
 		fc.addMessage("cadCli", new FacesMessage("Cliente Salvo com sucesso!!!"));
-		findCli();
 		cliente = new Cliente();
+		clienteList = dao.findAll();
 	}catch(Exception e){
 		e.printStackTrace();
-		fc.addMessage("cadCli", new FacesMessage("Error: "+e.getMessage()));
-
+		FacesMessage ms = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", e.getMessage());
+		fc.addMessage(null, ms);
 	}
 
 
 	return null;
 }
 
-
-public String delete()
-{
+@SuppressWarnings("unchecked")
+public String delete(){
 	FacesContext fc = FacesContext.getCurrentInstance();
 	try{
+		
+		
+		
+		daoPedido = new ClassDao<Pedido>(Pedido.class);
+		daoItemPedido = new ClassDao<ItemPedido>(ItemPedido.class);
+		
+		List<Pedido> pedidos = (List<Pedido>)daoPedido.consultaByCriteria()
+			.createAlias("cliente", "c")
+			.add(Restrictions.eq("c.objref", cliente.getObjref())).list();
+		
+		
+			for(Pedido p : pedidos){
+				List<ItemPedido> itens =  (List<ItemPedido>) daoItemPedido.consultaByCriteria()
+								.createAlias("pedido", "p")
+								.add(Restrictions.eq("p.objref", p.getObjref())).list();
+				for(ItemPedido i: itens){
+				
+					daoItemPedido.delete(i);
+					
+				}
+				
+				daoPedido.delete(p);
+			}
+			
+			HibernateUtil.getSessionFactory().getCurrentSession().evict(cliente);
+			
+	cliente = dao.findByCod(cliente.getObjref());	
 		dao.delete(cliente);
 		fc.addMessage("cadCli", new FacesMessage("Cliente Deletado com sucesso!!!"));
 	}catch(Exception e){
 		e.printStackTrace();
-		fc.addMessage("cadCli", new FacesMessage("Error: "+e.getMessage()));
+		FacesMessage ms = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", e.getMessage());
+		fc.addMessage(null, ms);
 	}
-	findCli();
 cliente = new Cliente();
+findCli();
 return null;
 }	
 
@@ -167,6 +205,7 @@ return null;
 
 @SuppressWarnings("unchecked")
 public String findCli(){
+	FacesContext fc = FacesContext.getCurrentInstance();
 	try {
 		if(campo =="objref")
 		{ 
@@ -177,8 +216,9 @@ public String findCli(){
 		clienteList  = 	(ArrayList<Cliente>) dao.consultaByTipoCriteria(0, null, tipoConsulta, campo, pesCli).list();
 	} catch (Exception e) {
 		e.printStackTrace();
-
-	}
+		FacesMessage ms = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", e.getMessage());
+		fc.addMessage(null, ms);
+		}
 	return null;
 	
 
@@ -187,23 +227,6 @@ public String findCli(){
 
 
 
-
-	/*
-	private void openSession() {
-try {
-session = HibernateUtil.getSessionFactory().getCurrentSession();
-} catch (Exception e) {
-	e.printStackTrace();
-	
-}
-
-
-		
-	}*/
-	
-
-
-	
 	
 	
 }

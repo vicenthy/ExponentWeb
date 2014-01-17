@@ -1,4 +1,4 @@
-package entity;
+package br.com.exponent.entity;
 
 import java.util.Date;
 import java.util.List;
@@ -51,6 +51,10 @@ public class Pedido {
 	private String status;
 	
 	
+	
+
+	
+	
 	public Pedido() {
 
 
@@ -61,7 +65,9 @@ public class Pedido {
 	
 	
 	
-	
+
+
+
 
 	public Double getTotal() {
 		return total;

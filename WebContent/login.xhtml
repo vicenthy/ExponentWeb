@@ -7,12 +7,21 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
+<h:head>
+        
+        <style type="text/css">
+            body {
+                font-family: geneva, arial, helvetica, sans-serif;
+                font-size: 70%;
+            }
+        </style>
 
 
-<ui:decorate template="template.xhtml">
-	<ui:define name="conteudo">
+</h:head>
+<h:body>
+<f:view>
 		<h:form>
-			<p:dialog header="Acesso ao Sistema" widgetVar="dlgLogin"
+			<p:dialog header="Login - Sistema de pedidos online " widgetVar="dlgLogin"
 				appendTo="@(body)" closable="false" maximizable="false"
 				minimizable="false" modal="true" visible="true" resizable="false" draggable="false" >
 				<h:panelGrid columns="2">
@@ -20,16 +29,12 @@
 					<h:inputText value="" />
 					<h:outputText value="Senha:" />
 					<h:inputSecret value="" />
-					<p:commandButton value="Entrar" onclick="dlgLogin.hide()" />
+					<p:commandButton value="Entrar" action="verPedidos" onclick="dlgLogin.hide()" />
 				</h:panelGrid>
 			</p:dialog>
 
 
 		</h:form>
-
-	</ui:define>
-
-</ui:decorate>
-
-
+</f:view>
+</h:body>
 </html>

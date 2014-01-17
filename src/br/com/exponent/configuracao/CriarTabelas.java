@@ -1,4 +1,4 @@
-package configuracao;
+package br.com.exponent.configuracao;
 
 import javax.faces.bean.ManagedBean;
 
@@ -24,7 +24,7 @@ public static void main(String[] args) {
 	
 	public static String criar(){
 	try {
-	System.out.println("Reiniciando banco...");
+	System.out.println("Criando banco de dados do zero...");
 		Configuration cfg = new Configuration();
 		cfg.configure("config/pgsql_hibernate.cfg.xml");
 		SchemaExport se = new SchemaExport(cfg);
