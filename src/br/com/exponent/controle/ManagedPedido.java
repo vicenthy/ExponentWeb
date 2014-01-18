@@ -1,24 +1,18 @@
 package br.com.exponent.controle;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-
-import org.hibernate.Session;
-
 import br.com.exponent.entity.Cliente;
 import br.com.exponent.entity.ItemPedido;
 import br.com.exponent.entity.Pedido;
 import br.com.exponent.entity.Produto;
 import br.com.exponent.persistence.ClassDao;
-import br.com.exponent.persistence.HibernateUtil;
 
 
 
@@ -33,21 +27,18 @@ public class ManagedPedido implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Pedido pedido;
 	private List<Pedido> pedidosList;
-	//private Session session;
 	private ClassDao<Pedido> daoPedido;
 	private ClassDao<ItemPedido> daoItensPedido ;
-	private ClassDao<Cliente> daoCliente;
 	private ItemPedido itenPedido;
 	private List<ItemPedido> itenPedidos;
 	private Cliente cliente;
 	private Integer qtdProd;
 	private Produto produto;
 	private Double total;
-	private  Integer cont;
+	
 
 	public ManagedPedido() {
 		daoPedido = new ClassDao<Pedido>(Pedido.class);
-		daoCliente = new ClassDao<Cliente>(Cliente.class);
 		daoItensPedido = new ClassDao<ItemPedido>(ItemPedido.class);
 		produto = new Produto();
 		cliente = new Cliente();
@@ -56,7 +47,6 @@ public class ManagedPedido implements Serializable {
 		itenPedido = new ItemPedido();
 		pedido = new Pedido();
 		total = 0.;
-		cont = 1;
 	}
 
 	
@@ -74,7 +64,7 @@ public class ManagedPedido implements Serializable {
 
 	public String selecionado(){
 		
-		pedido = new Pedido();
+	pedido = new Pedido();
 	pedido.setCliente(cliente);
 	pedido.setDtPedido(new Date());
 	itenPedido.setPedido(pedido);
@@ -92,7 +82,7 @@ public class ManagedPedido implements Serializable {
 		qtdProd = 1;		
 		return null;
 		
-	}
+}
 	
 	
 	public String remover(){
@@ -105,6 +95,7 @@ public class ManagedPedido implements Serializable {
 	
 	
 	//Formata para separar por virgula
+	/*
 	private String format(String valor){
 		String con[] = new String[1];
 		con = valor.split(",");
@@ -118,7 +109,7 @@ public class ManagedPedido implements Serializable {
 		return df.format(valor);
 	}
 
-	
+	*/
 	
 	
 	public String limparPedido(){
@@ -130,6 +121,7 @@ public class ManagedPedido implements Serializable {
 	
 	
 	public String finalizarPedido(){
+		
 		System.out.println(pedido.toString());
 		FacesContext fc = FacesContext.getCurrentInstance();
 
@@ -140,6 +132,7 @@ public class ManagedPedido implements Serializable {
 		}
 		
 	System.out.println("Numeros de produtos no momento: "+ itenPedidos.size());
+	
 			//por default o pedido é setado como aberto
 			pedido.setStatus("Em aberto");
 			
@@ -148,6 +141,7 @@ public class ManagedPedido implements Serializable {
 				if(pedido.getFormaPg()==""){
 					pedido.setFormaPg("Dinheiro ");
 				}
+				
 			pedido = daoPedido.save(pedido);
 
 				
@@ -249,6 +243,7 @@ public class ManagedPedido implements Serializable {
 	public void setPedidosList(List<Pedido> pedidosList) {
 		this.pedidosList = pedidosList;
 	}
+
 
 	//Fim Gets Sets
 	

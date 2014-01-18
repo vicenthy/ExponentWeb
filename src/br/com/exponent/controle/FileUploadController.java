@@ -2,18 +2,12 @@ package br.com.exponent.controle;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
-import javax.swing.JFileChooser;
-import javax.swing.plaf.FileChooserUI;
-
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-
 import br.com.exponent.entity.Produto;
 import br.com.exponent.persistence.ClassDao;
 
@@ -35,12 +29,11 @@ public class FileUploadController {
 	
   public FileUploadController() {
 
-dao = new ClassDao<Produto>(Produto.class);
+	  dao = new ClassDao<Produto>(Produto.class);
   }
   
     public void upload() {  
         if(file != null) {  
-            
         	/*
         	FacesContext context = FacesContext.getCurrentInstance();
 
@@ -71,7 +64,6 @@ dao = new ClassDao<Produto>(Produto.class);
         			
         			// linha recebe a linha lida até a linha lida ser nula
         			while((linha = b.readLine()) != null){
-        				
         				Slinha = linha.split(";");
         				System.out.println("Slinha teste>>>>>>>"+Slinha.length);
         				 cod = Slinha[0] ;
@@ -80,7 +72,7 @@ dao = new ClassDao<Produto>(Produto.class);
         				 preco = Slinha[4];		
         				 try {
         					 
-        						Double valor = convert(preco.toString());
+        						Double valor = convert(preco);
         							 if(cont % 20 == 0){;
         							 dao.clear();
         							 }
@@ -103,12 +95,12 @@ dao = new ClassDao<Produto>(Produto.class);
         		    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",e.getMessage());  
         	        FacesContext.getCurrentInstance().addMessage(null, msg);  
         	    	
-        		
         		}
-
-     			System.out.println("TOTAL DE PRODUTOS ------>>>>>>> "+cont);
             
-        }  
+        }
+        
+        
+			System.out.println("TOTAL DE PRODUTOS ------>>>>>>> "+cont);
     }
     
     
@@ -124,16 +116,13 @@ dao = new ClassDao<Produto>(Produto.class);
     
 public Double convert(String numero){
 	String num[] =  new String[1];
-	
 num = numero.split(",");
 	numero = num[0]+"."+num[1];
-	
 	return Double.parseDouble(numero);
 }
 
 
 public File abrirArquivo(String diretorio){
-
 	File  arquivo  = new File(diretorio);
 	return arquivo;
 }

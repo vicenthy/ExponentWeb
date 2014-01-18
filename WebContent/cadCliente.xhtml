@@ -11,6 +11,7 @@
 
 <ui:decorate template="template.xhtml">
 	<ui:define name="conteudo">
+		<!-- Form CRUD cliente -->	
 		<p:fieldset legend="Cadastro de Cliente">
 			<h:form id="cadCli">
 			<p:messages/>
@@ -28,6 +29,9 @@
 				</h:panelGrid>
 			</h:form>
 		</p:fieldset>
+		<!-- Fim Form CRUD cliente -->	
+		
+		<!-- PanelGrid para pesquisa do cliente -->
 			<h:form id="fmCli">
 			<h:panelGrid columns="5" width="200">
 					<p:outputLabel value="Pesquisar:  " />
@@ -66,6 +70,8 @@
 						</p:column>
 				</p:dataTable>
 		</h:form>
+			<!-- Fim PanelGrid e datatable -->
+	
 	</ui:define>
 </ui:decorate>
 

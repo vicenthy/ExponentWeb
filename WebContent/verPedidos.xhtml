@@ -13,6 +13,23 @@
         <ui:define name="conteudo">
 
 <h:form target="_blank">
+	<h:panelGrid columns="5" width="200">
+					<p:outputLabel value="Pesquisar:  " />
+					<p:selectOneMenu value="#{beanVerpedido.campo}">
+						<f:selectItem itemLabel="Nome do Cliente" itemValue="c.nome" />
+						<f:selectItem itemLabel="Ref do Cliente" itemValue="c.objref" />
+						<f:selectItem itemLabel="Loja do cliente" itemValue="c.nomeLoja" />
+						<f:selectItem itemLabel="CPF/CNPJ" itemValue="c.cpfCnpj" />
+					</p:selectOneMenu>
+					<p:selectOneMenu value="#{beanVerpedido.tipoConsulta}">
+						<f:selectItem itemLabel="Que contenha..." itemValue="0" />
+						<f:selectItem itemLabel="Começando com..." itemValue="3" />
+						<f:selectItem itemLabel="Terminando com..." itemValue="2" />
+					</p:selectOneMenu>
+					<p:inputText value="#{beanVerpedido.pesCli}" />
+					<p:commandButton icon="ui-icon-search"
+						actionListener="#{beanVerpedido.findCli}"  update="tdVerpedido"/>
+				</h:panelGrid>
 	<p:dataTable var="v" value="#{beanVerpedido.pedidos}"
 					paginator="true" rows="15"  id="tdVerpedido" >
 					<p:column headerText="Ref">
@@ -62,10 +79,10 @@
 
 
 <ui:define name="dialogs">
-<!-- Dialog pra busca de Cliente -->
+<!-- Dialog para listagem de prodrutos do pedido -->
 		<h:form id="fmCli">
 			<p:dialog widgetVar="dgldetalhe" header="Detalhe do Pedido" modal="true" position="top" width="50%">
-				<p:dataTable id="tddetalhe" value="#{beanVerpedido.itenPedidos}" var="i">
+				<p:dataTable id="tddetalhe" value="#{beanVerpedido.itemPedidos}" var="i" paginator="true" rows="15">
 					<p:column headerText="Ref">
 					<h:outputText value="#{i.pedido.objref}"/>
 					</p:column>
@@ -86,7 +103,7 @@
 				</p:dataTable>
 			</p:dialog>
 		</h:form>
-		<!-- Fim Dialog Busca de Cliente -->
+		<!-- Fim Dialog listagem produtos -->
 </ui:define>
 </ui:decorate>
 

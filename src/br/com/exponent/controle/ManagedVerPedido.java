@@ -2,9 +2,12 @@ package br.com.exponent.controle;
 
 import java.io.OutputStream;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -14,9 +17,12 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
+
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.engine.SessionFactoryImplementor;
 
+import br.com.exponent.entity.Cliente;
 import br.com.exponent.entity.ItemPedido;
 import br.com.exponent.entity.Pedido;
 import br.com.exponent.persistence.ClassDao;
@@ -29,12 +35,17 @@ public class ManagedVerPedido {
 	private List<Pedido> pedidos;
 	private ClassDao<Pedido> daoPedido;
 	private Pedido pedido;
-	private List<ItemPedido> itenPedidos;
-	private ClassDao<ItemPedido> daoItenPedido;
+	private List<ItemPedido> itemPedidos;
+	private ClassDao<ItemPedido> daoItemPedido;
+	private int tipoConsulta;
+	private String campo;
+	private String pesCli;
+	
+		
 
 	public ManagedVerPedido() {
 		daoPedido = new ClassDao<Pedido>(Pedido.class);
-		daoItenPedido = new ClassDao<ItemPedido>(ItemPedido.class);
+		daoItemPedido = new ClassDao<ItemPedido>(ItemPedido.class);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -57,7 +68,7 @@ public class ManagedVerPedido {
 	@SuppressWarnings("unchecked")
 	public String verDetalhePedido() {
 
-		itenPedidos = daoItenPedido.consultaByCriteria()
+		itemPedidos = daoItemPedido.consultaByCriteria()
 				.createAlias("pedido", "p")
 				.add(Restrictions.eq("p.objref", pedido.getObjref())).list();
 		return null;
@@ -91,12 +102,68 @@ public class ManagedVerPedido {
 
 		return null;
 	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public String findCli(){
+		FacesContext fc = FacesContext.getCurrentInstance();
+		try {
+			if(campo =="objref")
+			{ 
+				Integer pesCli1 =   Integer.parseInt(pesCli); 
+					pedidos =  daoPedido.consultaByTipoCriteria(0, null, tipoConsulta, campo, pesCli1)
+					.createAlias("cliente", "c")
+					.addOrder(Order.desc("objref"))
+					.list();				
+				return null;
+			}		
+			pedidos =  daoPedido.consultaByTipoCriteria(0, null, tipoConsulta, campo, pesCli)
+					.createAlias("cliente", "c")
+					.addOrder(Order.desc("objref"))
+					.list();
+				} catch (Exception e) {
+			e.printStackTrace();
+			FacesMessage ms = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", e.getMessage());
+			fc.addMessage(null, ms);
+			}
+		return null;
+		
+
+	}
+
+
+	
 
 	// Set e Get...
 
+	
+	
 	public List<Pedido> getPedidos() {
-		pedidos = daoPedido.findOrderDesc("objref");
 		return pedidos;
+	}
+
+	public int getTipoConsulta() {
+		return tipoConsulta;
+	}
+
+	public void setTipoConsulta(int tipoConsulta) {
+		this.tipoConsulta = tipoConsulta;
+	}
+
+	public String getCampo() {
+		return campo;
+	}
+
+	public void setCampo(String campo) {
+		this.campo = campo;
+	}
+
+	public String getPesCli() {
+		return pesCli;
+	}
+
+	public void setPesCli(String pesCli) {
+		this.pesCli = pesCli;
 	}
 
 	public void setPedidos(List<Pedido> pedidos) {
@@ -111,12 +178,12 @@ public class ManagedVerPedido {
 		this.pedido = pedido;
 	}
 
-	public List<ItemPedido> getItenPedidos() {
-		return itenPedidos;
+	public List<ItemPedido> getItemPedidos() {
+		return itemPedidos;
 	}
 
-	public void setItenPedidos(List<ItemPedido> itenPedidos) {
-		this.itenPedidos = itenPedidos;
+	public void setItemPedidos(List<ItemPedido> itemPedidos) {
+		this.itemPedidos = itemPedidos;
 	}
 
 }
