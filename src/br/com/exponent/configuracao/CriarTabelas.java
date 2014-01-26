@@ -26,7 +26,7 @@ public static void main(String[] args) {
 	try {
 	System.out.println("Criando banco de dados do zero...");
 		Configuration cfg = new Configuration();
-		cfg.configure("config/pgsql_hibernate.cfg.xml");
+		cfg.configure("br/com/exponent/config/pgsql_hibernate.cfg.xml");
 		SchemaExport se = new SchemaExport(cfg);
 		se.create(true, true);
 	

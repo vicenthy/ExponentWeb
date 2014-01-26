@@ -12,10 +12,11 @@
 
 <!-- Form de busca para carregar um cliente no managed bean -->
 		<h:form id="pgCli">
-			<h:panelGrid columns="4">
+			<h:panelGrid columns="5">
 				<p:outputLabel value="Cliente: " />
 				<p:inputText value="#{beanPedido.cliente.nome}" disabled="true"/>
 				<p:commandButton value="Buscar Cliente" onclick="dglCli.show();" />
+				<p:commandButton value="Novo Cliente" ajax="false" action="cadCliente" style="width:120px;"/>
 			<p:messages showDetail="true"/>
 			</h:panelGrid>
 		</h:form>
@@ -116,7 +117,6 @@
 					<p:inputText value="#{beancliente.pesCli}" />
 					<p:commandButton icon="ui-icon-search"
 						actionListener="#{beancliente.findCli}" update="fmCli:tdcli" />
-						<p:commandButton value="Novo Cliente" ajax="false" action="cadCliente" style="width:120px;"/>
 				</h:panelGrid>
 				<p:dataTable id="tdcli" value="#{beancliente.clienteList}" var="c">
 					<p:column headerText="Ref">

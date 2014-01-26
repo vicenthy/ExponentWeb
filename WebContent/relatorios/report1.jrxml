@@ -63,33 +63,33 @@ where pe.objref = $P{cod_pedido}]]>
 		<band/>
 	</background>
 	<title>
-		<band height="180">
+		<band height="200">
 			<rectangle>
-				<reportElement x="0" y="145" width="545" height="30" backcolor="#666666"/>
+				<reportElement x="0" y="170" width="545" height="30" backcolor="#666666"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="10" y="155" width="78" height="20" forecolor="#FFFFFF"/>
+				<reportElement x="10" y="180" width="78" height="20" forecolor="#FFFFFF"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Código]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="245" y="155" width="78" height="20" forecolor="#FFFFFF"/>
+				<reportElement x="245" y="180" width="78" height="20" forecolor="#FFFFFF"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Produto]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="449" y="155" width="78" height="20" forecolor="#FFFFFF"/>
+				<reportElement x="449" y="180" width="78" height="20" forecolor="#FFFFFF"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Preço Uni]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="118" y="155" width="78" height="20" forecolor="#FFFFFF"/>
+				<reportElement x="118" y="180" width="78" height="20" forecolor="#FFFFFF"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
@@ -143,6 +143,20 @@ where pe.objref = $P{cod_pedido}]]>
 					<font size="45" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Detalhe do Pedido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="145" width="88" height="20"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VENDEDOR:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="92" y="145" width="78" height="20"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ROBSON]]></text>
 			</staticText>
 		</band>
 	</title>
