@@ -36,12 +36,13 @@
         		 <p:slideMenu backLabel="Voltar" >
           				<p:menuitem value="Emitir Pedidos"  action="pedido" />
 						<p:menuitem value="Ver Pedidos" action="verPedidos" />
+                        <p:menuitem value="Produto" action="pesProduto"/>
                         <p:submenu label="Cadastro">
                         <p:menuitem value="Cliente" action="cadCliente"/>
-                        <p:menuitem value="Produto" action="cadProduto"/>
                         </p:submenu>
                         <p:submenu label="Configuracão" >
                         <p:menuitem value="Importar CSV" action="importacao" />
+                        <p:menuitem value="Criar banco" action="#{beanBanco.criar}" />
                         </p:submenu>
      			</p:slideMenu>              
        	</h:form>
@@ -66,16 +67,14 @@
                     </f:facet>
                 </p:ajaxStatus>
 <br />
-<!-- 
-<p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();"/>  
+<!-- <p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();"/>  
               
 <p:dialog modal="true" widgetVar="statusDialog" header="Status"   
         draggable="false" closable="false">  
-    <p:graphicImage value="/design/ajaxloadingbar.gif" />  
-</p:dialog>  
+    <p:graphicImage value="/design/ajaxloadingbar.gif" />
+      
+</p:dialog> 
 -->
-
-
 				<ui:insert name="conteudo">
 
                 </ui:insert>

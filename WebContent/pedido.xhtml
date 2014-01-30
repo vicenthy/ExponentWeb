@@ -148,7 +148,7 @@
 <!-- Dialog para busca de produtos -->
 		<h:form id="fmdlgProd">
 			<p:dialog widgetVar="dlgprod" id="dgl" header="Pesquisa de Produto"
-				modal="true" width="90%" position="top" >
+				modal="true" width="90%" height="100%" position="top" >
 				<h:panelGrid columns="5" id="dlggrig">
 					<p:outputLabel value="Pesquisar:  " />
 					<p:selectOneMenu value="#{beanProduto.campo}">
@@ -168,14 +168,14 @@
 				<p:outputLabel value="Quantidade:   " />
 				<p:inputText value="#{beanPedido.qtdProd}" size="2" />
 				<p:dataTable value="#{beanProduto.produtoList}" var="p" id="tdprod"
-					paginator="true" rows="5">
+					paginator="true" rows="25" scrollable="true" scrollHeight="500" >
 					<p:column headerText="Ref">
 						<h:outputText value="#{p.objref}" />
 					</p:column>
 					<p:column headerText="Codigo">
 						<h:outputText value="#{p.codigo}" />
 					</p:column>
-					<p:column headerText="Produto">
+					<p:column headerText="Produto" width="600">
 						<h:outputText value="#{p.descricao}" />
 					</p:column>
 					<p:column headerText="UN">

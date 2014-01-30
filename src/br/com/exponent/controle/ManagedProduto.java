@@ -7,6 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 
 import br.com.exponent.entity.Produto;
 import br.com.exponent.persistence.ClassDao;
@@ -117,7 +118,8 @@ public class ManagedProduto {
 	public String findProd(){
 		try {
 					
-			produtoList  = 	dao.consultaByTipoCriteria(0, null, tipoConsulta, campo, pesProd).list();
+			produtoList  = 	dao.consultaByTipoCriteria(0, null, tipoConsulta, campo, pesProd)
+								.addOrder(Order.asc("descricao")).list();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
