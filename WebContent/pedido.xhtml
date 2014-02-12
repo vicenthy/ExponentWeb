@@ -168,7 +168,7 @@
 				<p:outputLabel value="Quantidade:   " />
 				<p:inputText value="#{beanPedido.qtdProd}" size="2" />
 				<p:dataTable value="#{beanProduto.produtoList}" var="p" id="tdprod"
-					paginator="true" rows="25" scrollable="true" scrollHeight="500" >
+					 scrollable="true" scrollHeight="300" scrollRows="15" liveScroll="true" >
 					<p:column headerText="Ref">
 						<h:outputText value="#{p.objref}" />
 					</p:column>

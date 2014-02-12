@@ -63,7 +63,7 @@
 					<p:column headerText="CPF/CNPJ">
 					<h:outputText value="#{c.cpfCnpj}"/>
 					</p:column>
-						<p:column headerText="Opções">
+						<p:column headerText="Opções" >
 						<p:commandButton value="Selecionar" action="#{beancliente.selecionado}" update=":cadCli">
 							<f:setPropertyActionListener target="#{beancliente.cliente}" value="#{c}" />
 						</p:commandButton>

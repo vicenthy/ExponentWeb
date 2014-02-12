@@ -30,10 +30,8 @@
 						style="height:32px; width:75px;"
 						actionListener="#{beanProduto.findProd}" update="fmdlgProd1:tdprod1" />
 				</h:panelGrid>
-				<p:outputLabel value="Quantidade:   " />
-				<p:inputText value="#{beanPedido.qtdProd}" size="2" />
 				<p:dataTable value="#{beanProduto.produtoList}" var="p" id="tdprod1"
-					paginator="true" rows="25" scrollable="true" scrollHeight="500" >
+					 rows="25" scrollable="true" scrollHeight="500" liveScroll="true" scrollRows="25">
 					<p:column headerText="Ref">
 						<h:outputText value="#{p.objref}" />
 					</p:column>
