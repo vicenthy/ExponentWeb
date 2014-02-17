@@ -28,6 +28,7 @@ public class ClassDao<T> implements IDao<T>{
 	this.entity = entity;
 	}
 	
+	//Implementação adptada pra padrão hibernate-openssesion-in-view
 	
 	
 	
