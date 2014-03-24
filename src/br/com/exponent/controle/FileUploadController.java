@@ -48,6 +48,8 @@ public class FileUploadController {
 			FileReader ler = new FileReader(diretorio + file.getFileName());
 			BufferedReader b = new BufferedReader(ler);
 
+			
+			//teste git
 			// linha recebe a linha lida até a linha lida ser nula
 			while ((linha = b.readLine()) != null) {
 				//se a linha vier com a tamanho diferente do que é esperado que é 5
