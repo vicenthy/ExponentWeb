@@ -30,8 +30,9 @@
 						style="height:32px; width:75px;"
 						actionListener="#{beanProduto.findProd}" update="fmdlgProd1:tdprod1" />
 				</h:panelGrid>
+				<h:panelGrid>
 				<p:dataTable value="#{beanProduto.produtoList}" var="p" id="tdprod1"
-					 rows="25" scrollable="true" scrollHeight="500" liveScroll="true" scrollRows="25">
+					 rows="25" scrollable="true" scrollHeight="500" liveScroll="true" scrollRows="25" >
 					<p:column headerText="Ref">
 						<h:outputText value="#{p.objref}" />
 					</p:column>
@@ -50,6 +51,7 @@
 						</h:outputText>
 					</p:column>
 			</p:dataTable>
+			</h:panelGrid>
 		</h:form>
 <!-- Fim Dialog para busca de produtos -->
 	

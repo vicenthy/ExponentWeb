@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -23,7 +24,10 @@ public class FileUploadController {
 	private String diretorio;
 	private Produto produto;
 	private ClassDao<Produto> dao;
+	private Produto p = null;
+	private Produto pTemp = null;
 	private int cont = 1;
+	private int tamlinha = 5;
 	private String Slinha[]  = new String[4];;
 	private String linha = "";
 	private String cod = "";
@@ -38,82 +42,40 @@ public class FileUploadController {
 
 	public void upload() throws IOException {
 		if (file != null) {
-
 			// Abaixo método para upload que não está funcionando, está dando
 			// erro de acesso negado
 
-			// uploadArquivo();
-
-			FileReader ler = new FileReader(file.getFileName());
+			FileReader ler = new FileReader(diretorio + file.getFileName());
 			BufferedReader b = new BufferedReader(ler);
-			Produto p = null;
-			Produto pTemp = null;
 
 			// linha recebe a linha lida até a linha lida ser nula
 			while ((linha = b.readLine()) != null) {
-
-				if (linha.split(";").length == 5) {
-					Slinha = linha.split(";");
-
-					System.out.println("Tamanho Slinha ------>>" + Slinha.length);
-
-					cod = Slinha[0];
-					Sproduto = Slinha[1];
-					un = Slinha[2];
-					preco = Slinha[4];
-
-					Double valor = convert(preco);
-
-					if (cont % 20 == 0) {
-						dao.clear();
-						System.out.println("limpando Cache Hibernate");
-					}
-					
-
-					 
-					pTemp  = (Produto) dao.consultaByCriteria().add(Restrictions.eq("codigo", cod)).uniqueResult();
-					//se não encontrar nenhum produto pelo codigo cria um novo
-					if(pTemp == null){
-						
-						p = new Produto(null, cod, Sproduto, un, valor);
-						p = dao.save(p);
-						System.out.println("Produto inserido =  " + "Codigo: "
-								+ cod + " " + "Produto: " + Sproduto + " "
-								+ " UN: " + un + " " + "Preco: " + preco + " "
-								+ "Contatdor: " + cont);
-				//se nenhum produto foi criado é pq encontro		
-					}else if(p == null){				
-						dao.update(pTemp);
-						System.out.println("Produto atualizado ---> "+pTemp.getDescricao());
-						pTemp = null;
-					}
-					
-					p = null;
-					cont++;
-
-
+				//se a linha vier com a tamanho diferente do que é esperado que é 5
+				// é pq os dados do produtos não vieram corretamente 
+				// o Slinha tem length 4 pq é só até ai que ficam os dados que quero
+				//do produto
+				if (linha.split(";").length == tamlinha) {
+					inserirProduto();
+				}else{
+					System.out.println("Problema ao obter produto importado!!");
 				}
-				
-				// se o tamanho do array for diferente do esperado
-				// quer dizer que os dados do produto está incompleto
-				// então não é possivek inserir o produto
 			}
-
 			ler.close();
 			b.close();
-
 		}
-
 		System.out.println("TOTAL DE PRODUTOS ------>>>>>>> " + cont);
 	}
 
+	
 	public void handleFileUpload(FileUploadEvent event) throws IOException {
 		file = event.getFile();
+		uploadArquivo();
 		upload();
-		FacesMessage msg = new FacesMessage("Succesful", event.getFile()
+		FacesMessage msg = new FacesMessage("Succesfull", event.getFile()
 				.getFileName() + " Arquivo importado com sucesso.");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
+	
 
 	public Double convert(String numero) {
 		String num[] = new String[1];
@@ -122,25 +84,30 @@ public class FileUploadController {
 		return Double.parseDouble(numero);
 	}
 
+	
 	public File abrirArquivo(String diretorio) {
 		File arquivo = new File(diretorio);
 		return arquivo;
 	}
 
+	
 	public void uploadArquivo() {
 
 		FacesContext context = FacesContext.getCurrentInstance();
-
-		diretorio = context.getExternalContext().getRealPath("/");
-
-		File file1 = new File(diretorio + "\\upload\\");
+		diretorio = context.getExternalContext().getRealPath("/WebContent/");
+		diretorio = diretorio + "\\upload\\";
+		File file1 = new File(diretorio);
 		file1.mkdirs();
 
-		diretorio = diretorio + "upload\\";
 		FileOutputStream fos;
 		try {
+		InputStream i =	 file.getInputstream();
+	
 			fos = new FileOutputStream(diretorio + file.getFileName());
-			fos.write(file.getContents());
+			while(i.read()!=-1){
+				fos.write(file.getContents());
+				
+			}
 			fos.flush();
 			fos.close();
 
@@ -150,10 +117,57 @@ public class FileUploadController {
 		}
 
 		System.out.println("Diretorio recuperado:  " + diretorio);
-		System.out
-				.println(file.getFileName() + " Arquivo>>>>>>>>>>>>>>>>>>>>>");
+		System.out.println(file.getFileName() + " Arquivo>>>>>>>>>>>>>>>>>>>>>");
 
 	}
+	
+	
+	
+	public void inserirProduto(){
+		
+		Slinha = linha.split(";");
+		System.out.println("Tamanho Slinha ------>>" + Slinha.length);
+
+		cod = Slinha[0];
+		Sproduto = Slinha[1];
+		un = Slinha[2];
+		preco = Slinha[4];
+
+		Double valor = convert(preco);
+
+		if (cont % 20 == 0) {
+			dao.clear();
+			System.out.println("limpando Cache Hibernate");
+		}
+		
+		pTemp  = (Produto) dao.consultaByCriteria().add(Restrictions.eq("codigo", cod)).uniqueResult();
+		//se não encontrar nenhum produto pelo codigo cria um novo
+		if(pTemp == null){
+			p = new Produto(null, cod, Sproduto, un, valor);
+			p = dao.save(p);
+			System.out.println("Produto inserido =  " + "Codigo: "
+					+ cod + " " + "Produto: " + Sproduto + " "
+					+ " UN: " + un + " " + "Preco: " + preco + " "
+					+ "Contatdor: " + cont);
+	//se nenhum produto foi criado é pq encontrou		
+		}else{	
+			pTemp.setCodigo(cod);
+			pTemp.setDescricao(Sproduto);
+			pTemp.setPreco(valor);
+			pTemp.setUn(un);
+			dao.update(pTemp);
+			System.out.println("Produto atualizado ---> "+pTemp.getDescricao());
+			pTemp = null;
+		}
+		
+		p = null;
+		cont++;
+	}
+	
+
+	
+	
+	
 
 	public UploadedFile getFile() {
 		return file;

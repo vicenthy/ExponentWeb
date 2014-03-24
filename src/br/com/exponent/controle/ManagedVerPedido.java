@@ -53,13 +53,14 @@ public class ManagedVerPedido {
 
 	public String fechar() {
 		pedido.setStatus("Fechado");
+		daoPedido.update(pedido);
 		System.out.println(pedido.getStatus());
-
 		return null;
 	}
 
 	public String desfazer() {
 		pedido.setStatus("Em aberto");
+		daoPedido.update(pedido);
 		System.out.println(pedido.getStatus());
 
 		return null;
