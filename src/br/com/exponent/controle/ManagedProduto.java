@@ -136,6 +136,29 @@ public class ManagedProduto {
 	
 	
 	
+	public List<String> complete(String query){
+		
+		List<String>  list = new ArrayList<String>();		
+		try {					
+			 	
+			for(Produto p : dao.findAll()){
+				if(p.getDescricao().contains(query.toUpperCase())){
+					list.add(p.getDescricao());
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+	
+		
+		
+		return list;
+		
+	
+	}
+	
 	
 	
 }

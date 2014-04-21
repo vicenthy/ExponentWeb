@@ -31,7 +31,7 @@
 		<h:form id="fmPedido">
 			<p:panel header="Produtos em orçamento" >
 				<p:commandButton value="Adcionar Produtos" onclick="dlgprod.show();" />
-				<p:commandButton value="Limpar pedido" action="#{beanPedido.limparPedido}" update="fmPedido"/>
+				<p:commandButton value="Limpar pedido" action="#{beanPedido.limparPedido}" update="fmPedido,:pgCli"/>
 				<p:dataTable var="v" value="#{beanPedido.itenPedidos}"
 					paginator="true" rows="10" >
 					<p:column headerText="codigo">
@@ -160,7 +160,8 @@
 						<f:selectItem itemLabel="Começando com..." itemValue="3" />
 						<f:selectItem itemLabel="Terminando com..." itemValue="2" />
 					</p:selectOneMenu>
-					<p:inputText value="#{beanProduto.pesProd}" />
+					
+					<p:autoComplete value="#{beanProduto.pesProd}" completeMethod="#{beanProduto.complete}" />
 					<p:commandButton icon="ui-icon-search"
 						style="height:32px; width:75px;"
 						actionListener="#{beanProduto.findProd}" update="fmdlgProd:tdprod" />

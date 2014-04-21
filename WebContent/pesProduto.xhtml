@@ -25,8 +25,8 @@
 						<f:selectItem itemLabel="Começando com..." itemValue="3" />
 						<f:selectItem itemLabel="Terminando com..." itemValue="2" />
 					</p:selectOneMenu>
-					<p:inputText value="#{beanProduto.pesProd}" />
-					<p:commandButton icon="ui-icon-search"
+				<p:autoComplete value="#{beanProduto.pesProd}" completeMethod="#{beanProduto.complete}" />
+						<p:commandButton icon="ui-icon-search"
 						style="height:32px; width:75px;"
 						actionListener="#{beanProduto.findProd}" update="fmdlgProd1:tdprod1" />
 				</h:panelGrid>

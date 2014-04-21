@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import br.com.exponent.entity.Cliente;
@@ -17,7 +18,7 @@ import br.com.exponent.persistence.ClassDao;
 
 
 @ManagedBean(name="beanPedido")
-@ViewScoped
+@SessionScoped
 public class ManagedPedido implements Serializable {
 
 	
@@ -115,6 +116,7 @@ public class ManagedPedido implements Serializable {
 	public String limparPedido(){
 		itenPedidos.clear();
 		total = 0.;
+		cliente = new Cliente();
 		return null;
 	}
 	
@@ -126,7 +128,7 @@ public class ManagedPedido implements Serializable {
 		FacesContext fc = FacesContext.getCurrentInstance();
 
 		if(cliente.getNome()==null || itenPedidos.size() < 1) {
-			FacesMessage ms = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error Insira os dados curretamente:", " Cliente ou Produto vazio");
+			FacesMessage ms = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error Insira os dados corretamente:", " Cliente ou Produto vazio");
 			fc.addMessage(null, ms);
 			return null;
 		}
@@ -167,6 +169,7 @@ public class ManagedPedido implements Serializable {
 		cliente = new Cliente();
 		pedido = new Pedido();
 		itenPedidos = new ArrayList<ItemPedido>();
+		total = 0.;
 		return "verPedidos.jsf";
 	}
 	

@@ -1,16 +1,22 @@
 package br.com.exponent.controle;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
+import org.apache.tomcat.jni.FileInfo;
 import org.hibernate.criterion.Restrictions;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -60,6 +66,7 @@ public class FileUploadController {
 					inserirProduto();
 				}else{
 					System.out.println("Problema ao obter produto importado!!");
+					System.out.println("LINHA ----->"+cont);
 				}
 			}
 			ler.close();
@@ -101,18 +108,22 @@ public class FileUploadController {
 		File file1 = new File(diretorio);
 		file1.mkdirs();
 
-		FileOutputStream fos;
+		OutputStream fos;
 		try {
-		InputStream i =	 file.getInputstream();
-	
-			fos = new FileOutputStream(diretorio + file.getFileName());
-			while(i.read()!=-1){
-				fos.write(file.getContents());
-				
-			}
-			fos.flush();
-			fos.close();
 
+			fos = new FileOutputStream(diretorio + file.getFileName());
+			OutputStreamWriter os = new OutputStreamWriter(fos);
+			BufferedWriter bf = new BufferedWriter(os);
+
+				InputStreamReader rd = new InputStreamReader(file.getInputstream());
+				BufferedReader d = new BufferedReader(rd);
+				while(d.readLine()!=null){
+					bf.write(d.readLine());	
+					bf.newLine();
+				}
+				bf.flush();
+				bf.close();
+				
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
